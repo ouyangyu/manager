@@ -90,11 +90,15 @@ class AdminController extends BaseController {
     public function getUsers() {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
-        $data['moodles'] = $moodles;
-        $baseurl = $moodles->first()->moodleurl."/webservice/rest/users.php";
-        $data = $this->curl_post($baseurl , null);
-        $resultarr = (array)json_decode($data);
-        $users = array_filter($resultarr);
+        if(empty($moodles)) {
+            $baseurl = $moodles->first()->moodleurl."/webservice/rest/users.php";
+            $data = $this->curl_post($baseurl , null);
+            $resultarr = (array)json_decode($data);
+            $users = array_filter($resultarr);
+        } else {
+            $users = null;
+        }
+
 
         //$data['userdata'] = $users;
         $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$users);
@@ -103,8 +107,11 @@ class AdminController extends BaseController {
     public function getMoodle() {
         $moodle = new Moodle();
         $data['moodles'] = $moodle->getAllMoodle();
-        $course = new Course();
-        $data['courses'] = $course->getCoursesByMoodle($data['moodles']->first()->id);
+        if(!empty($data['moodles'])) {
+            $course = new Course();
+            $data['courses'] = $course->getCoursesByMoodle($data['moodles']->first()->id);
+        }
+
         $this->layout->content = View::make('admin.moodle')->with('data',$data);
 
 

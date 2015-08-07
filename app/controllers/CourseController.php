@@ -9,7 +9,7 @@ class CourseController extends ApiController {
         } else {
             $data['image'] = URL::to($course->courseimage);
             $resources = Resource::where('courseid','=',$course->id)->get();
-            $redate = array();
+
             foreach($resources as $resource) {
                 $resource->resourceimage =  URL::to($resource->resourceimage);
             }
