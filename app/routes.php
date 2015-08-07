@@ -18,3 +18,4 @@ Route::get('/', function()
 Route::controller('users', 'UsersController');
 Route::controller('home', 'HomeController');
 Route::controller('admin', 'AdminController');
+Route::controller('course', 'CourseController');
