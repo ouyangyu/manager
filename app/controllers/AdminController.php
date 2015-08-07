@@ -95,9 +95,7 @@ class AdminController extends BaseController {
             $data = $this->curl_post($baseurl , null);
             $resultarr = (array)json_decode($data);
             $users = array_filter($resultarr);
-        } else {
-            $users = null;
-        }
+        } 
 
 
         //$data['userdata'] = $users;
@@ -106,10 +104,11 @@ class AdminController extends BaseController {
 
     public function getMoodle() {
         $moodle = new Moodle();
+        $moodles = $moodle->getAllMoodle();
         $data['moodles'] = $moodle->getAllMoodle();
-        if(!empty($data['moodles'])) {
+        if(!empty($moodles)) {
             $course = new Course();
-            $data['courses'] = $course->getCoursesByMoodle($data['moodles']->first()->id);
+            $data['courses'] = $course->getCoursesByMoodle($moodles->first()->id);
         }
 
         $this->layout->content = View::make('admin.moodle')->with('data',$data);
