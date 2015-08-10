@@ -90,12 +90,12 @@ class AdminController extends BaseController {
     public function getUsers() {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
-        if(empty($moodles)) {
+        if(!empty($moodles)) {
             $baseurl = $moodles->first()->moodleurl."/webservice/rest/users.php";
             $data = $this->curl_post($baseurl , null);
             $resultarr = (array)json_decode($data);
             $users = array_filter($resultarr);
-        } 
+        }
 
 
         //$data['userdata'] = $users;
