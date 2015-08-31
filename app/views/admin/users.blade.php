@@ -45,7 +45,7 @@
         <th>登录名</th>
         <th>邮箱</th>
         <th>手机</th>
-        <th>操作</th>
+
 
         </tr>
       </thead>
@@ -56,7 +56,7 @@
             <td>{{ $user->username }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ empty($user->phone1) ? $user->phone2 : $user->phone1 }}</td>
-            <td><a class="btn btn-danger">{{ empty($user->phone2) ? "设置手机" : "解绑手机" }}</a></td>
+
 
 
         </tr>

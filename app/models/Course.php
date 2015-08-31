@@ -11,6 +11,6 @@ class Course extends Eloquent {
 
     public function getCoursesByMoodle($moodleid) {
 
-        return $this->where('moodleid','=',$moodleid)->get();
+        return $this->where('moodleid','=',$moodleid)->paginate(4);
     }
 }

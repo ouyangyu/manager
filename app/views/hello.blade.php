@@ -10,6 +10,7 @@
 			font-family:'Lato', sans-serif;
 			text-align:center;
 			color: #999;
+			background-color: #fffdea;
 		}
 
 		.welcome {
@@ -29,7 +30,7 @@
         			top: 50%;
         			margin-left: -150px;
         			margin-top: -100px;
-        		}
+        }
 
 		a, a:visited {
 			text-decoration:none;
@@ -38,6 +39,10 @@
 		h1 {
 			font-size: 32px;
 			margin: 16px 0 0 0;
+		}
+		.admin a img{
+		    width: 135px;
+		    height: 135px;
 		}
 	</style>
 </head>

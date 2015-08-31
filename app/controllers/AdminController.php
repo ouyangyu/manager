@@ -61,10 +61,12 @@ class AdminController extends BaseController {
             $baseurl = $moodle->moodleurl."/webservice/rest/server.php?moodlewsrestformat=json&moodlewssettingfilter=true&wsfunction=core_course_get_courses&wstoken=50b22875390c83ea2f350fe011a99fd9";
             $data = $this->curl_post($baseurl , null);
             $resultarr = (array)json_decode($data);
+            $baseUserurl = $moodle->moodleurl."/webservice/rest/users.php";
+            $students = $this->curl_post($baseUserurl , null);
+            $studentarray = (array)json_decode($students);
             if(!empty($resultarr)) {
                 foreach( $resultarr as $result) {
                     $course = new Course();
-
                     if(!Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->count()) {
 
                         $course->courseid = $result->id;
@@ -76,6 +78,19 @@ class AdminController extends BaseController {
                         $course->save();
                     }
 
+                }
+            }
+
+            if(!empty($studentarray)) {
+                foreach( $studentarray as $student) {
+                    $students = new Student();
+                    $students->moodleid = $moodle->id;
+                    $students->studentid = $student->id;
+                    $students->email = $student->email;
+                    $students->username = $student->username;
+                    $students->name = $student->lastname.$student->firstname;
+                    $students->phone = $student->phone2;
+                    $students->save();
                 }
             }
             //var_dump($resultarr);var_dump(empty($resultarr));die();
@@ -96,7 +111,6 @@ class AdminController extends BaseController {
             $resultarr = (array)json_decode($data);
             $users = array_filter($resultarr);
         }
-
 
         //$data['userdata'] = $users;
         $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$users);

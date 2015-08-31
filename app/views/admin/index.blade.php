@@ -28,7 +28,9 @@
                 <td>{{ $moodle->moodleurl }}</td>
                 <td><span>{{ $moodle->isenable == 1 ? '显示' : '不显示' }}</span></td>
                 <td>
-                        <a class="btn btn-danger">删除</a><a class="btn btn-primary">更新课程</a>
+                        <a class="btn btn-danger">修改</a>
+                        <a class="btn btn-primary">更新课程</a>
+                        <a class="btn btn-primary">更新用户</a>
                 </td>
         </tr>
         @endforeach

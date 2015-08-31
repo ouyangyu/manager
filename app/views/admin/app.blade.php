@@ -33,12 +33,17 @@
         <th>操作</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         @foreach($apps as $app )
             <tr>
-                <th>{{ $app->appversion }}</th>
-                <th>{{ $app->appfile }}</th>
-                <th>{{ $app->apptime }}</th>
+                <td>{{ $app->appversion }}</td>
+                <td>{{ $app->appfile }}</td>
+                <td>{{ $app->apptime }}</td>
+                <td><a class="btn btn-primary" href="#">修改</a>
+                <a class="btn btn-danger">删除</a>
+                </td>
+
+
             </tr>
         @endforeach
       </tbody>

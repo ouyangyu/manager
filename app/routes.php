@@ -15,7 +15,12 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::controller('admin', 'AdminController');
+Route::controller('class', 'ClassController');
+Route::controller('mentor', 'MentorController');
+Route::controller('headTeacher', 'HeadTeacherController');
 Route::controller('users', 'UsersController');
 Route::controller('home', 'HomeController');
-Route::controller('admin', 'AdminController');
+
 Route::controller('course', 'CourseController');

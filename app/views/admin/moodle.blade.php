@@ -94,5 +94,5 @@
       </tbody>
     </table>
 <!-- Button trigger modal -->
-
+{{ $data['courses']->links() }}
 </div>

@@ -4,7 +4,7 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Founder</a>
+            <a class="navbar-brand" href="#">国开小后台</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -72,7 +72,39 @@
 
                 </div>
             </a>
+            <a class="icon-view col-md-2" href="{{ URL::to('headTeacher/index') }}" tip-title="班主任：管理平台班主任用户所管辖的班级！">
+                            <div class="icon-wrapper">
+                                <div class="icon-img">
+                                    <img src="{{ URL::asset("images/factory_new.svg") }}" class="glyphicon glyphicon-user img-rounded">
 
+
+                                </div>
+                                <div class="icon-name">班主任</div>
+
+                            </div>
+            </a>
+            <a class="icon-view col-md-2" href="{{ URL::to('class/index') }}" tip-title="班级管理：管理平台班级创建与修改！">
+                            <div class="icon-wrapper">
+                                <div class="icon-img">
+                                    <img src="{{ URL::asset("images/rocket.svg") }}" class="glyphicon glyphicon-user img-rounded">
+
+
+                                </div>
+                                <div class="icon-name">班级管理</div>
+
+                            </div>
+            </a>
+            <a class="icon-view col-md-2" href="{{ URL::to('mentor/index') }}" tip-title="辅导教师：管理平台辅导教师！">
+                                        <div class="icon-wrapper">
+                                            <div class="icon-img">
+                                                <img src="{{ URL::asset("images/service.svg") }}" class="glyphicon glyphicon-user img-rounded">
+
+
+                                            </div>
+                                            <div class="icon-name">辅导教师</div>
+
+                                        </div>
+            </a>
         </div>
     </div>
 

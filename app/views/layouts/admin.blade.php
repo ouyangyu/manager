@@ -91,6 +91,37 @@
                         width: 140px;
                         height: 140px;
                 }
+
+                .pagination{
+                    margin: 0 0 35px;
+                    text-align: center;
+                    display: block;
+
+                }
+                .pagination li {
+                    color: #ffffff;
+                    margin: 0 3px;
+                    line-height: 36px;
+                    padding: 0 14px;
+                    border-radius: 2px;
+                }
+                .pagination li a {
+                    text-align: center;
+                    color: #ffffff;
+                    background: #f4645f;
+                    border-radius: 2px;
+                }
+
+        .pagination>li>a, .pagination>li>span {
+            position: absolute;
+            padding: 6px 12px;
+            line-height: 1.42857143;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #35b550;
+            border: 1px solid #ddd;
+            margin-left: -1px;
+        }
     </style>
     </head>
 
@@ -123,6 +154,18 @@
 
                <li class="@if(Route::currentRouteAction() == 'AdminController@getApp') {{ 'active' }} @endif">
                    <a href="{{ URL::to('admin/app') }}" data-toggle="tooltip" data-placement="right" title="APP版本"><img src="{{ URL::asset('images/server.svg') }}" alt="APP版本"></a>
+               </li>
+               <li class="@if(strstr(Route::currentRouteAction(),'HeadTeacherController')) {{ 'active' }} @endif">
+                   <a href="{{ URL::to('headTeacher/index')}} " data-toggle="tooltip" data-placement="right" title="班主任">
+                   <img src="{{ URL::asset('images/factory_new.svg') }}" alt="班主任"></a>
+               </li>
+               <li class="@if(strstr(Route::currentRouteAction() ,'ClassController')) {{ 'active' }} @endif">
+                    <a href="{{ URL::to('class/index') }}" data-toggle="tooltip" data-placement="right" title="班级管理">
+                    <img src="{{ URL::asset('images/rocket.svg') }}" alt="班级管理"></a>
+               </li>
+               <li class="@if(strstr(Route::currentRouteAction(),'MentorController')) {{ 'active' }} @endif">
+                     <a href="{{ URL::to('mentor/index') }}" data-toggle="tooltip" data-placement="right" title="辅导教师">
+                     <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师"></a>
                </li>
            </ul>
 

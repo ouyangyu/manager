@@ -1,0 +1,1 @@
+/var/www/html/manager/app/views/headteahcer/index.blade.php
