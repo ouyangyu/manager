@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row headertitle" >
-                <p>平台用户管理</p>
+                <p>班级学生管理</p>
     </div>
     <div id="loading">
     	<div class="loading-length" style="width: 1903px;"></div>
@@ -13,14 +13,7 @@
     </div>
     <div class="row" style="text-align: center;margin-bottom: 20px">
               {{ Form::open(array('url'=> 'admin/moodle', 'class'=> 'form-inline ')) }}
-          <div class="form-group">
-            <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
-                @foreach($moodles as $moodle)
-                <option value="{{ $moodle->id }}">{{ $moodle->moodlename }}</option>
-                @endforeach
-            </select>
-          </div>
+
           <div class="form-group">
             <label for="exampleInputEmail2">登录名</label>
             <input type="text" name="username" class="form-control"  placeholder="登录名">
@@ -41,6 +34,7 @@
     <table class="table table-hover" >
       <thead style="text-align: center">
         <tr>
+        <th><input type="checkbox" id="studentbox"></th>
         <th>姓名</th>
         <th>登录名</th>
         <th>邮箱</th>
@@ -50,8 +44,9 @@
         </tr>
       </thead>
       <tbody>
-      @foreach($users as $user)
+      @foreach($students as $user)
         <tr>
+            <td><input name="addstudent" type="checkbox" value="{{ $user->id }}" ></td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->username }}</td>
             <td>{{ $user->email }}</td>
@@ -61,5 +56,45 @@
       </tbody>
     </table>
 <!-- Button trigger modal -->
-{{ $users->links() }}
+{{ $students->links() }}
+
+ <div class="row">
+    {{ Form::open(array('url'=>'class/student')) }}
+       <input id="jsondata" type="hidden" name="studentids" value="" />
+       <input id="jsondata" type="hidden" name="moodleid" value="{{ $students->first()->moodleid }}" />
+       <input id="jsondata" type="hidden" name="classid" value="{{ $classid }}" />
+       <button class="btn btn-primary" id="addtoclass" >添加到班级</button>
+        <a  type="button" class="btn btn-danger" href="{{ URL::to('class/classstudent/'.$classid.'/'.$students->first()->moodleid) }}" >
+             返回
+        </a>
+     {{ Form::close() }}
+
 </div>
+</div>
+<script>
+    $(function() {
+
+           $("#studentbox").click(function() {
+                var check = this.checked;
+                 $("[name='addstudent']").each(function(){
+                             //$(this).attr("checked",check);
+                             $(this).prop("checked",check);
+                  });
+
+            });
+
+            $("#addtoclass").click(function(){
+                var value = new Array();
+                                  $("[name='addstudent']").each(function(){
+                                        if($(this).prop("checked")) {
+                                             value.push($(this).attr('value'));
+                                        }
+                                  });
+                $("#jsondata").val(value);
+                $(this).submit();
+            });
+
+        });
+
+
+</script>

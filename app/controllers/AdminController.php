@@ -43,7 +43,7 @@ class AdminController extends BaseController {
     public function getIndex()
 	{
         $moodle = new Moodle();
-        $moodles = $moodle->getAllMoodle();
+        $moodles = $moodle->getMoodlePage();
 
         $this->layout->content = View::make('admin.index')->with('moodles',$moodles);
         //return View::make('hello');
@@ -83,6 +83,7 @@ class AdminController extends BaseController {
 
             if(!empty($studentarray)) {
                 foreach( $studentarray as $student) {
+
                     $students = new Student();
                     $students->moodleid = $moodle->id;
                     $students->studentid = $student->id;
@@ -106,14 +107,11 @@ class AdminController extends BaseController {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
         if(!empty($moodles)) {
-            $baseurl = $moodles->first()->moodleurl."/webservice/rest/users.php";
-            $data = $this->curl_post($baseurl , null);
-            $resultarr = (array)json_decode($data);
-            $users = array_filter($resultarr);
+            $student = Student::getStudentAll($moodles->first()->id);
         }
 
         //$data['userdata'] = $users;
-        $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$users);
+        $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$student);
     }
 
     public function getMoodle() {

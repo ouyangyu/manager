@@ -92,4 +92,36 @@ class ClassController extends BaseController {
         }
     }
 
+    public function getClassstudent($classid,$moodleid) {
+        $classStudent = new ClassStudent();
+        $student = $classStudent->getClassStudent($classid,$moodleid);
+        $this->layout->content = View::make('class.classstudent')->with('classstudent',$student)->with('moodleid',$moodleid)->with('classid',$classid);
+
+    }
+
+    public function getStudent($classid,$moodleid) {
+        $student = Student::getStudentByMoodle($moodleid,$classid);
+        $this->layout->content = View::make('class.student')->with('students',$student)->with('classid',$classid);
+    }
+
+    public function postStudent() {
+        $studentids = Input::get('studentids');
+        $moodleid = Input::get('moodleid');
+        $classid = Input::get('classid');
+
+        $studentids = explode(",",$studentids);
+        foreach($studentids as $id) {
+            $classStudent = new ClassStudent();
+            $classStudent->moodleid = $moodleid;
+            $classStudent->classid = $classid;
+            $classStudent->studentid = $id;
+            $classStudent->save();
+        }
+        $class = Classes::find($classid);
+        $class->count = $class->count + count($studentids);
+        $class->save();
+        return Redirect::to('class/classstudent/'.$classid.'/'.$moodleid)->with('message', '添加成功！');
+
+    }
+
 }

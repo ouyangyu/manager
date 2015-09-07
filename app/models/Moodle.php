@@ -17,4 +17,8 @@ class Moodle extends Eloquent {
     public function getAllMoodle() {
         return $this->all();
     }
+
+    public static function getMoodlePage() {
+        return Moodle::paginate(4);
+    }
 }

@@ -22,5 +22,4 @@ Route::controller('mentor', 'MentorController');
 Route::controller('headTeacher', 'HeadTeacherController');
 Route::controller('users', 'UsersController');
 Route::controller('home', 'HomeController');
-
 Route::controller('course', 'CourseController');

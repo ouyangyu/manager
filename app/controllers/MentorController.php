@@ -27,8 +27,13 @@ class MentorController extends BaseController {
     {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
+        $data['moodles'] = $moodle->getAllMoodle();
+        if(!empty($moodles)) {
+            $teacher = new Teacher();
+            $data['classes'] = $teacher->getHeadTeacher();
+        }
 
-        $this->layout->content = View::make('admin.index')->with('moodles',$moodles);
+        $this->layout->content = View::make('mentor.index')->with('data',$data);
         //return View::make('hello');
     }
 

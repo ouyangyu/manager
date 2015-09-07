@@ -47,17 +47,11 @@ class UsersController extends BaseController {
         }
 	    $this->layout->content = View::make('users.login');
 	}
-
 	public function postSignin() {
-
 		if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
-
 		    return Redirect::to('home/index')->with('message', '欢迎登录');
-
 		} else {
-
 		    return Redirect::to('users/login')->with('message', '用户名或密码错误')->withInput();
-		        
 		}
 	             
 	}

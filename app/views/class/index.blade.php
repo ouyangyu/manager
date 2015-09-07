@@ -49,7 +49,7 @@
                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal_{{$class->id}}">
                           编辑
                         </button>
-                        <a class="btn btn-primary" href="{{ URL::to('class/student/'.$class->id) }}">学生管理</a>
+                        <a class="btn btn-primary" href="{{ URL::to('class/classstudent/'.$class->id.'/'.$class->moodleid) }}">学生管理</a>
                 </td>
                 <div class="modal fade" id="myModal_{{ $class->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                           <div class="modal-dialog" role="document">

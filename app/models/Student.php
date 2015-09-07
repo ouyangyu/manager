@@ -22,9 +22,30 @@ class Student extends Eloquent  {
 	    'email'=>'required|email|unique:users',
 	    );
 
-	public function up(){
-		
 
+
+    public static function getStudentAll($moodleid) {
+        return Student::where('moodleid','=',$moodleid)->paginate(6);
+
+    }
+    /*
+     * 除去已经在班级里面的学生
+     */
+    public static  function getStudentByMoodle($moodleid,$classid) {
+
+        $classstudent = ClassStudent::where('moodleid','=',$moodleid)->where('classid','=',$classid)->get(array('studentid'));
+        $classstudent = $classstudent->toArray();
+
+        $classs = DB::table('students')
+            ->where('students.moodleid','=',$moodleid)
+            ->whereNotIn('id',$classstudent)
+            ->paginate(6);
+        return $classs;
+    }
+
+
+
+	public function up(){
 	}
 
 	public function down(){
