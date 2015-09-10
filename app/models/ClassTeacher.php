@@ -24,7 +24,13 @@ class ClassTeacher extends Eloquent  {
 	    );
 
 
+    public static function getTeacherClass($teacherid, $moodleid) {
+        $classid = ClassTeacher::where('teacherid','=',$teacherid)->where('classteacher.moodleid','=',$moodleid)
+            ->join('classes','classes.id','=','classteacher.classid')
+            ->get(array('classes.id','name','count'));
+        return $classid;
 
+    }
 
 
     public static  function  getClassed($teacherid , $moodleid = '1') {

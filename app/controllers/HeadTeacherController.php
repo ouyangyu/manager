@@ -47,7 +47,7 @@ class HeadTeacherController extends BaseController {
         if ($validator->passes() && Teacher::notSameTeacher(Input::get('teacher'),Input::get('moodleid'))) {
             $teacher = new Teacher();
             $teacher->moodleid = Input::get('moodleid');
-            $teacher->password = Hash::make(Input::get('111111'));
+            $teacher->password = Hash::make('11111111');
             $teacher->teacher = Input::get('teacher');
             $teacher->email = Input::get('email');
             $teacher->phone = Input::get('phone');

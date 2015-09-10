@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddAreaToMoodle' => $baseDir . '/app/database/migrations/2015_09_09_063814_add_area_to_moodle.php',
     'AddIstotalToMoodleTable' => $baseDir . '/app/database/migrations/2015_08_27_104859_add_istotal_to_moodle_table.php',
+    'AddMouseridToTeachers' => $baseDir . '/app/database/migrations/2015_09_10_083136_add_mouserid_to_teachers.php',
     'AddResourcesidToResourcesTable' => $baseDir . '/app/database/migrations/2015_08_03_073307_add_resourcesid_to_resources_table.php',
     'AddUsercountToCourses' => $baseDir . '/app/database/migrations/2015_09_10_030011_add_usercount_to_courses.php',
     'AdminController' => $baseDir . '/app/controllers/AdminController.php',

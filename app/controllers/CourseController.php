@@ -61,4 +61,29 @@ class CourseController extends ApiController {
         }
         echo json_encode($data);
     }
+
+    public function getIndex($teacherid, $moodleid) {
+        $result = ClassTeacher::getTeacherClass($teacherid,$moodleid);
+        if(count($result)) {
+            $data['status'] = 'true';
+            $data['message'] = $result;
+        }else {
+            $data['status'] = 'false';
+            $data['message'] = "无班级关联！";
+        }
+        echo json_encode($data);
+    }
+
+    public function getCusers($classid,$moodleid) {
+        $result = ClassStudent::getCStudent($classid,$moodleid);
+
+        if(count($result)) {
+            $data['status'] = 'true';
+            $data['message'] = $result;
+        }else {
+            $data['status'] = 'false';
+            $data['message'] = "无学生！";
+        }
+        echo json_encode($data);
+    }
 }

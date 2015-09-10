@@ -8,11 +8,12 @@
 
 class Teacher extends Eloquent {
     protected $table = 'teachers';
+    protected $hidden = array('password');
 
     public  static $rules = array(
         'image' => 'image',
-        'email' => 'required|email',
-        'phone' => 'required|digits:11',
+        'email' => 'required|email|unique:teachers',
+        'phone' => 'required|digits:11|unique:teachers',
         'teacher'=>'required|alpha_num',
         'name' => 'required',
         'moodleid'=>'required',

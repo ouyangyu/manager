@@ -30,7 +30,18 @@ class ClassStudent extends Eloquent  {
             ->select('students.*')
             ->where('classuser.classid','=',$classid)
             ->where('students.moodleid','=',$moodleid)
-            ->paginate(6);
+            ->paginate();
+        return $classstudent;
+    }
+
+    public static  function getCStudent($classid,$moodleid) {
+
+        $classstudent = DB::table('classuser')
+            ->join('students', 'students.id', '=', 'classuser.studentid')
+            ->select('students.*')
+            ->where('classuser.classid','=',$classid)
+            ->where('students.moodleid','=',$moodleid)
+            ->get();
         return $classstudent;
     }
 
