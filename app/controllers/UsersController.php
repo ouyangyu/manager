@@ -69,6 +69,5 @@ class UsersController extends BaseController {
 		return Redirect::to('users/login')->with('message', '你现在已经退出登录了!');
 	     
 	}
- 
 }
 ?>

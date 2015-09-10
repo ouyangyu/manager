@@ -11,156 +11,44 @@
 
         @endif
     </div>
-    <div class="row" style="text-align: center;margin-bottom: 20px">
-              {{ Form::open(array('url'=> 'class/index', 'class'=> 'form-inline ')) }}
-          <div class="form-group">
-            <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
-                @foreach($data['moodles'] as $moodle)
-                <option value="{{ $moodle->id }}" selected="@if(isset($moodleid)){{ $moodleid == $moodle->id ? 'true':'false' }}@endif">{{ $moodle->moodlename }}</option>
-                @endforeach
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail2">班级名称</label>
-            <input type="text" name="coursename" class="form-control" id="exampleInputEmail2" placeholder="课程名称">
-          </div>
-          <button type="submit" class="btn btn-primary">查询</button>
-            {{ Form::close() }}
-    </div>
 
 
     <table class="table table-hover" >
       <thead style="text-align: center">
         <tr>
+        <th>moodle平台</th>
         <th>班级名称</th>
-        <th>学生人数</th>
         <th>操作</th>
         </tr>
       </thead>
       <tbody>
       @foreach($data['classes'] as $class)
+      {{ Form::open(array('url'=> 'headTeacher/class', 'class'=> 'form-horizontal ')) }}
+        {{ Form::input('hidden','moodleid',$class->moodleid) }}
+        {{ Form::input('hidden','classid',$class->id) }}
+        {{ Form::input('hidden','teacherid',$data['teacherid']) }}
         <tr>
+                <td>{{ $data['moodlename'] }}</td>
                 <td>{{ $class->name }}</td>
-                <td>{{ $class->count }}</td>
-
                 <td>
-
-                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal_{{$class->id}}">
-                          编辑
-                        </button>
-                        <a class="btn btn-primary" href="{{ URL::to('class/classstudent/'.$class->id.'/'.$class->moodleid) }}">学生管理</a>
+                @if(in_array($class->id,$data['inclass']))
+                {{ Form::input('hidden','type','delete') }}
+                <button type="submit" class="btn btn-danger ">
+                          解绑
+                 </button>
+                 @else
+                  {{ Form::input('hidden','type','add') }}
+                 <button type="submit" class="btn btn-primary ">
+                       绑定
+                  </button>
+                  @endif
                 </td>
-                <div class="modal fade" id="myModal_{{ $class->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                          <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="ModalLabel">编辑班级</h4>
-                                      </div>
-                                      {{ Form::open(array('url'=> 'class/update', 'class'=> 'form-horizontal ')) }}
-                                      <div class="modal-body" style="height: 250px">
-                                      <div class="row">
-                                                  {{ FORM::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
-                                                  <div class="col-md-8">
-                                                      <select name="moodleid" class="form-control">
-                                                        @foreach($data['moodles'] as $moodle)
-                                                           <option value="{{ $moodle->id }}">{{ $moodle->moodlename }}</option>
-                                                        @endforeach
-                                                       </select>
-                                                  </div>
-
-                                      </div>
-                                      <div class="row">
-                                         {{ FORM::label('班级名称',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                                                <div class="col-md-8">
-                                                 {{ Form::text('classname',$class->name, array('class'=>'form-control ',  'placeholder'=>'班级名称')) }}
-                                                 <input type="hidden" name="classid" value="{{ $class->id }}">
-                                                </div>
-                                      </div>
-                                       <div class="row">
-                                       {{ FORM::label('班级公告',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                                                       <div class="col-md-8">
-                                                        {{ Form::text('classpublic',$class->public, array('class'=>'form-control ',  'placeholder'=>'班级公告')) }}
-
-                                                       </div>
-                                       </div>
-                                       <div class="row">
-                                              {{ FORM::label('班级备注',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                                                              <div class="col-md-8">
-                                                               {{ Form::text('classdescribe',$class->describe, array('class'=>'form-control ',  'placeholder'=>'班级备注')) }}
-                                                              </div>
-                                       </div>
-
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                        {{ Form::submit('保存',array('class'=>"btn btn-primary")) }}
-                                      </div>
-                                      {{ Form::close() }}
-                                    </div>
-                          </div>
-                </div>
-
         </tr>
+        {{ Form::close() }}
         @endforeach
       </tbody>
     </table>
-    <div class="row">
-        <button  type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            新增班级
-        </button>
-    </div>
+
 <!-- Button trigger modal -->
 
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="addModalClass">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addModalClass">新增班级</h4>
-      </div>
-      {{ Form::open(array('url'=> 'class/add', 'class'=> 'form-horizontal ')) }}
-      <div class="modal-body" style="height: 250px">
-      <div class="row">
-                  {{ FORM::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
-                  <div class="col-md-8">
-                      <select name="moodleid" class="form-control">
-                                            @foreach($data['moodles'] as $moodle)
-                                            <option value="{{ $moodle->id }}">{{ $moodle->moodlename }}</option>
-                                            @endforeach
-                                        </select>
-                  </div>
-
-      </div>
-      <div class="row">
-         {{ FORM::label('班级名称',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                <div class="col-md-8">
-                 {{ Form::text('name',null, array('class'=>'form-control ', 'id'=>'inputmoodlename', 'placeholder'=>'班级名称')) }}
-
-                </div>
-      </div>
-       <div class="row">
-       {{ FORM::label('班级公告',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                       <div class="col-md-8">
-                        {{ Form::text('public',null, array('class'=>'form-control ', 'id'=>'inputmoodleurl', 'placeholder'=>'班级公告')) }}
-
-                       </div>
-       </div>
-       <div class="row">
-              {{ FORM::label('班级备注',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
-                              <div class="col-md-8">
-                               {{ Form::text('describe',null, array('class'=>'form-control ', 'id'=>'inputmoodleurl', 'placeholder'=>'班级备注')) }}
-                              </div>
-       </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        {{ Form::submit('保存',array('class'=>"btn btn-primary")) }}
-      </div>
-      {{ Form::close() }}
-    </div>
-  </div>
 </div>

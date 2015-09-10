@@ -49,6 +49,25 @@ class AdminController extends BaseController {
         //return View::make('hello');
 	}
 
+
+    public function postIndex() {
+        $validator = Validator::make(Input::all(), Moodle::$rules);
+        if($validator->passes()) {
+            $moodle = Moodle::find(Input::get('id'));
+            $moodle->moodlename = Input::get('moodlename');
+            $moodle->moodleurl = Input::get('moodleurl');
+            $moodle->isenable = Input::get('isenable');
+            $moodle->istotal = Input::get('istotal');
+            $moodle->area = Input::get('area');
+
+            if($moodle->save()) {
+                return Redirect::to('admin/index')->with('message','修改成功！');
+            }
+
+        }
+        return Redirect::to('admin/index')->with('message','错误！');
+
+    }
     public function postMoodleadd() {
         $validator = Validator::make(Input::all(), Moodle::$rules);
 
@@ -57,8 +76,11 @@ class AdminController extends BaseController {
             $moodle->moodlename = Input::get('moodlename');
             $moodle->moodleurl = Input::get('moodleurl');
             $moodle->isenable = Input::get('isenable');
+            $moodle->area = Input::get('area');
+
             $moodle->save();
-            $baseurl = $moodle->moodleurl."/webservice/rest/server.php?moodlewsrestformat=json&moodlewssettingfilter=true&wsfunction=core_course_get_courses&wstoken=50b22875390c83ea2f350fe011a99fd9";
+            $baseurl = $moodle->moodleurl."/webservice/rest/courses.php";
+            //$baseurl = $moodle->moodleurl."/webservice/rest/server.php?moodlewsrestformat=json&moodlewssettingfilter=true&wsfunction=core_course_get_courses&wstoken=50b22875390c83ea2f350fe011a99fd9";
             $data = $this->curl_post($baseurl , null);
             $resultarr = (array)json_decode($data);
             $baseUserurl = $moodle->moodleurl."/webservice/rest/users.php";
@@ -73,7 +95,7 @@ class AdminController extends BaseController {
                         $course->moodleid = $moodle->id;
                         $course->coursename = $result->fullname;
                         $course->courseimage = '';
-                        $course->subject = $result->categoryid == '1' ? '其他' : '未定义';
+                        $course->subject = $result->category == '1' ? '其他' : '未定义';
                         $course->isdelete = $result->visible;
                         $course->save();
                     }
@@ -83,18 +105,18 @@ class AdminController extends BaseController {
 
             if(!empty($studentarray)) {
                 foreach( $studentarray as $student) {
-
-                    $students = new Student();
-                    $students->moodleid = $moodle->id;
-                    $students->studentid = $student->id;
-                    $students->email = $student->email;
-                    $students->username = $student->username;
-                    $students->name = $student->lastname.$student->firstname;
-                    $students->phone = $student->phone2;
-                    $students->save();
+                    if($student->idnumber != 'teacher') {
+                        $students = new Student();
+                        $students->moodleid = $moodle->id;
+                        $students->studentid = $student->id;
+                        $students->email = $student->email;
+                        $students->username = $student->username;
+                        $students->name = $student->lastname.$student->firstname;
+                        $students->phone = $student->phone2;
+                        $students->save();
+                    }
                 }
             }
-            //var_dump($resultarr);var_dump(empty($resultarr));die();
 
 
             return Redirect::to('admin/index')->with('message', empty($resultarr) ? '成功,此平台无课程':'添加成功，课程同步成功！');
@@ -256,6 +278,147 @@ class AdminController extends BaseController {
             }
             return Redirect::to('admin/resources/'.Input::get('id'))->with('message','上传失败！');
 
+    }
+
+
+    /*
+     * 更新课程
+     * 1、获取课程信息
+     * 2、如果存在就更改，不存在就插入
+     * 3、如果获取的数据在本地没有，就要删除
+     */
+    public function getUpcourse($moodleid){
+        $moodle = Moodle::find($moodleid);
+        $baseurl = $moodle->moodleurl."/webservice/rest/courses.php";
+
+        $data = $this->curl_post($baseurl , null);
+        $resultarr = (array)json_decode($data);
+        $oldcourseids = Course::where('moodleid','=',$moodleid)->lists('courseid');
+        if(!empty($resultarr)) {
+            foreach( $resultarr as $result) {
+                $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
+                if(!empty($oldcourseids)) {
+                    foreach( $oldcourseids as $key => $value ) {
+                        if($result->id == $value) {
+                            unset($oldcourseids[$key]);
+                        }
+                    }
+                }
+
+                if(empty($course)) {
+                    $course = new Course();
+                    $course->courseid = $result->id;
+                    $course->moodleid = $moodle->id;
+                    $course->coursename = $result->fullname;
+                    $course->courseimage = '';
+                    $course->subject = $result->category == '1' ? '其他' : '未定义';
+                    $course->isdelete = $result->visible;
+                    $course->save();
+                }else{
+                    $course->coursename = $result->fullname;
+                    $course->subject = $result->category == '1' ? '其他' : '未定义';
+                    $course->isdelete = $result->visible;
+                    $course->save();
+                }
+            }
+            if(!empty($oldcourseids)) {
+                foreach( $oldcourseids as $key => $value ) {
+                    $recourse = Course::where(array('courseid'=> $value , 'moodleid' => $moodle->id))->first();
+                    Resource::where('courseid','=',$recourse->id)->delete();
+                    //Resource::where('courseid','=',$recourse->id)->delete();
+                    $recourse->delete();
+                }
+            }
+            return Redirect::to('admin/index')->with('message','课程更新成功！');
+        }
+        return Redirect::to('admin/index')->with('message','课程更新失败！');
+    }
+
+
+    /*
+     * 1、通过curl从moodle平台获取用户数据
+     * 2、与本地判断，主要更新内容
+     * 3、如果有新用户，加入到本地，如果moodle上有被删除的用户，那此用户相关的内容都删除
+     * 4、减少class班级的总人数
+     */
+    public function getUpusers($moodleid) {
+        $moodle = Moodle::find($moodleid);
+        $baseurl = $moodle->moodleurl."/webservice/rest/users.php";
+
+        $data = $this->curl_post($baseurl , null);
+        $resultarr = (array)json_decode($data);
+        $oldStudentids = Student::where('moodleid','=',$moodleid)->lists('studentid');
+
+        if(!empty($resultarr)) {
+            foreach( $resultarr as $students) {
+                if($students->idnumber != 'teacher') {
+                    $localStudent = Student::where(array('studentid'=> $students->id , 'moodleid' => $moodle->id))->first();
+                    if(!empty($oldStudentids)) {
+                        foreach( $oldStudentids as $key => $value ) {
+                            if($students->id == $value) {
+                                unset($oldStudentids[$key]);
+                            }
+                        }
+                    }
+                    if(!empty($localStudent)) {
+                        $localStudent->email = $students->email;
+                        $localStudent->username = $students->username;
+                        $localStudent->name = $students->lastname.$students->firstname;
+                        $localStudent->phone = $students->phone2;
+                        $localStudent->save();
+                    }else{
+                        $newStudent = new Student();
+                        $newStudent->moodleid = $moodle->id;
+                        $newStudent->studentid = $students->id;
+                        $newStudent->email = $students->email;
+                        $newStudent->username = $students->username;
+                        $newStudent->name = $students->lastname.$students->firstname;
+                        $newStudent->phone = $students->phone2;
+                        $newStudent->save();
+                    }
+                }
+
+            }
+            if(!empty($oldStudentids)) {
+                foreach( $oldStudentids as $key => $value ) {
+                    $restudent = Student::where(array('studentid'=> $value , 'moodleid' => $moodle->id))->first();
+                    $classstudent = ClassStudent::where('studentid','=',$restudent->id)->where('moodleid','=',$moodle->id)->first();
+                    if(!empty($classstudent)){
+                        $class = Classes::find($classstudent->classid);
+                        $class->count = $class->count - 1;
+                        $class->save();
+                        $classstudent->delete();
+                    }
+                    $restudent->delete();
+                }
+            }
+            return Redirect::to('admin/index')->with('message','用户更新成功！');
+        }
+        return Redirect::to('admin/index')->with('message','用户更新失败！');
+    }
+
+
+    /*
+     * 获取选课人数，汇总，加到每个moodle平台的上面
+     */
+    public function getCourseuc($moodleid){
+
+        $moodle = Moodle::find($moodleid);
+        $baseurl = $moodle->moodleurl."/webservice/rest/courses.php";
+        $data = $this->curl_post($baseurl , null);
+        $resultarr = (array)json_decode($data);
+        if(!empty($resultarr)) {
+            foreach( $resultarr as $result) {
+                $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
+                if(!empty($course)) {
+                    $course->usercount = $result->usercount;
+                    $course->save();
+                }
+            }
+
+            return Redirect::to('admin/index')->with('message','选课人数更新成功！');
+        }
+        return Redirect::to('admin/index')->with('message','选课人数更新失败！');
     }
 
 }

@@ -44,6 +44,7 @@
         <tr>
                 <td>{{ $course->coursename }}</td>
                 <td><img src="{{ empty($course->courseimage) ? URL::asset('images/course.svg') : URL::asset($course->courseimage) }}" alt="" class="img-rounded"></td>
+                <td>{{ $course->usercount }}</td>
                 <td>{{ $course->subject }}</td>
                 <td>
                         <a class="btn btn-danger">删除</a>

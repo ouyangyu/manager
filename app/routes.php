@@ -23,3 +23,9 @@ Route::controller('headTeacher', 'HeadTeacherController');
 Route::controller('users', 'UsersController');
 Route::controller('home', 'HomeController');
 Route::controller('course', 'CourseController');
+Route::controller('api','ApiController');
+/*Event::listen("illuminate.query", function($query, $bindings){
+    var_dump($query);//sql 预处理 语句
+    var_dump($bindings);// 替换数据
+    echo "</br>";
+});*/

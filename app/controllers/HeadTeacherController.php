@@ -118,9 +118,45 @@ class HeadTeacherController extends BaseController {
     public function getClass($teacherid,$moodleid = '1') {
 
         $classes = Classes::where('moodleid','=',$moodleid)->get();
+        $inclass = ClassTeacher::getClassed($teacherid,$moodleid);
+        $moodle = Moodle::find($moodleid);
+        $data['classes'] = $classes;
+        $data['inclass'] = $inclass;
+        $data['moodlename'] = $moodle->moodlename;
+        $data['teacherid'] = $teacherid;
+        $this->layout->content = View::make('headteacher.class')->with('data',$data);
+
+    }
+
+    public function postClass() {
+        $validator = Validator::make(Input::all(), ClassTeacher::$rules);
+        $data['classid'] = Input::get('classid');
+        $data['moodleid'] = Input::get('moodleid');
+        $data['teacherid'] = Input::get('teacherid');
+        if ($validator->passes() ) {
+            //$classteacher = new ClassTeacher();
+            if(Input::get('type') == 'add') {
+                $classteacher = ClassTeacher::firstOrCreate($data);
+                if(!$classteacher->enable) {
+                    $classteacher->enable = '1';
+                    $classteacher->save();
+                }
+            }elseif(Input::get('type') == 'delete'){
+
+                $classteacher = ClassTeacher::where('moodleid','=',$data['moodleid'])
+                    ->where('classid','=',$data['classid'])
+                    ->where('teacherid','=',$data['teacherid'])
+                    ->first();
+                $classteacher->delete();
+
+            }
 
 
-        $this->layout->content = View::make('headteacher.index')->with('data',$data);
+
+            return Redirect::to('headTeacher/class/'.$data['teacherid'].'/'.$data['moodleid'])->with('message','成功！');
+
+        }
+        return Redirect::to('headTeacher/class/'.$data['teacherid'].'/'.$data['moodleid'])->with('message','错误！');
 
     }
 

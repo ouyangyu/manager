@@ -2,6 +2,11 @@
 
 class ApiController extends Controller {
 
+    public function __construct() {
+        $this->beforeFilter('csrf', array('on'=>'post'));
+        //$this->beforeFilter('auth', array('only'=>array('getDashboard')));
+
+    }
 	/**
 	 * API基本控制类.
 	 *
@@ -14,6 +19,10 @@ class ApiController extends Controller {
         echo json_encode($data);
     }
 
+    public function postLogin() {
 
+        array('email'=>Input::get('email'), 'password'=>Input::get('password'));
+
+    }
 
 }
