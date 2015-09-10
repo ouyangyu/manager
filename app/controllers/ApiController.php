@@ -70,11 +70,11 @@ class ApiController extends Controller {
                 }
 
             }else{
-                $data['status'] = 'false2';
+                $data['status'] = 'false';
                 $data['message'] = "用户名错误！";
             }
         }else{
-            $data['status'] = 'false3';
+            $data['status'] = 'false';
             $data['message'] = "用户名错误！";
         }
 
