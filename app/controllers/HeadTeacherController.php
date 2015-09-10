@@ -66,8 +66,28 @@ class HeadTeacherController extends BaseController {
                 $path = $file->move('uploads/images',$newName); //这里是缓存文件夹，存放的是用户上传的原图，这里要返回原图地址给
                 $teacher->image = $path->getPathname();
             }
-            $teacher->save();
-            return Redirect::to('headTeacher/index')->with('message', '添加成功！');
+            $user['username']= "laravel".rand(100,99999).Input::get('teacher');
+            $user['password']= "Founder@2015!";
+            $user['firstname']= "班主任";
+            $user['lastname']= '用户';
+            $user['email']= "laravel".rand(100,99999).Input::get('email');
+            $user['mnethostid'] = 0;
+            $user['idnumber']= 'teacher';
+            $moodle = Moodle::find(Input::get('moodleid'));
+            $baseurl = $moodle->moodleurl."/webservice/rest/create_users.php";
+            //$baseurl = "http://172.19.43.180/fdmoodle/webservice/rest/create_users.php";
+            $data = $this->curl_post($baseurl , $user);
+            $resultarr = (array)json_decode($data);
+            if(!empty($resultarr)) {
+                $teacher->mouserid = $resultarr[0]->id;
+                $teacher->save();
+                return Redirect::to('headTeacher/index')->with('message', '添加成功！');
+
+            } else {
+                return Redirect::to('headTeacher/index')->with('message', '网络错误！');
+
+            }
+
 
 
         }else{
