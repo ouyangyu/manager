@@ -78,7 +78,7 @@
                         <div class="row">
                          {{ FORM::label('地区',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                           <div class="col-md-8">
-                            {{ Form::select('area',Area::getProvince(),$moodle->area ,array('class'=>'form-control')) }}
+                            {{ Form::select('area',$area,$moodle->area ,array('class'=>'form-control')) }}
                          </div>
                         </div>
                       </div>
@@ -133,7 +133,7 @@
          <div class="row">
                 {{ FORM::label('地区',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                 <div class="col-md-8">
-                 {{ Form::select('area',Area::getProvince(),null ,array('class'=>'form-control')) }}
+                 {{ Form::select('area',$area,null ,array('class'=>'form-control')) }}
                  </div>
                  </div>
       </div>

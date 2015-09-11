@@ -31,8 +31,8 @@ class AdminController extends BaseController {
 	{
         $moodle = new Moodle();
         $moodles = $moodle->getMoodlePage();
-
-        $this->layout->content = View::make('admin.index')->with('moodles',$moodles);
+        $area = Area::getProvince();
+        $this->layout->content = View::make('admin.index')->with('moodles',$moodles)->with('area',$area);
         //return View::make('hello');
 	}
 
