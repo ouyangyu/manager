@@ -51,6 +51,7 @@ return array(
     'Course' => $baseDir . '/app/models/Course.php',
     'CourseController' => $baseDir . '/app/controllers/CourseController.php',
     'CreateAppsTable' => $baseDir . '/app/database/migrations/2015_07_29_074311_create_apps_table.php',
+    'CreateAreaTable' => $baseDir . '/app/database/migrations/2015_09_11_021814_create_area_table.php',
     'CreateClassesTable' => $baseDir . '/app/database/migrations/2015_08_27_115726_create-classes-table.php',
     'CreateClassteacherTable' => $baseDir . '/app/database/migrations/2015_08_28_054108_create-classteacher-table.php',
     'CreateClassuserTable' => $baseDir . '/app/database/migrations/2015_08_28_053445_create-classuser-table.php',
