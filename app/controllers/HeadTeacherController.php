@@ -31,9 +31,7 @@ class HeadTeacherController extends BaseController {
         if(!empty($moodles)) {
             $teacher = new Teacher();
             $data['teachers'] = $teacher->getHeadTeacher($moodles->first()->id,'1');
-
         }
-
         $this->layout->content = View::make('headteacher.index')->with('data',$data);
         //return View::make('hello');
     }
@@ -43,7 +41,6 @@ class HeadTeacherController extends BaseController {
     }
     public function postAdd(){
         $validator = Validator::make(Input::all(), Teacher::$rules);
-
         if ($validator->passes() && Teacher::notSameTeacher(Input::get('teacher'),Input::get('moodleid'))) {
             $teacher = new Teacher();
             $teacher->moodleid = Input::get('moodleid');
@@ -59,12 +56,15 @@ class HeadTeacherController extends BaseController {
             $teacher->nativeplace = Input::get('nativeplace');
             $teacher->education = Input::get('education');
             $file = Input::file('image');
-            if($file->isValid()){
+            if(!empty($file) && $file->isValid()){
                 $clientName = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $newName = md5(date('moodle').$clientName).".".$extension;
                 $path = $file->move('uploads/images',$newName); //这里是缓存文件夹，存放的是用户上传的原图，这里要返回原图地址给
                 $teacher->image = $path->getPathname();
+            } else{
+                $teacher->image = "public/images/body.jpg";
+
             }
             $user['username']= "laravel".rand(100,99999).Input::get('teacher');
             $user['password']= "Founder@2015!";
@@ -78,27 +78,29 @@ class HeadTeacherController extends BaseController {
             //$baseurl = "http://172.19.43.180/fdmoodle/webservice/rest/create_users.php";
             $data = $this->curl_post($baseurl , $user);
             $resultarr = (array)json_decode($data);
+            //$tokenurl = "http://172.19.43.180/fdmoodle/login/token.php?username=".$user['username']."&password=".$user['password']."&service=moodle_mobile_app";
+            $tokenurl = $moodle->moodleurl."/login/token.php?username=".$user['username']."&password=".$user['password']."&service=moodle_mobile_app";
+
+            $token = $this->curl_post($tokenurl, null);
+            $tokenoc = json_decode($token);
             if(!empty($resultarr)) {
+                if(isset($tokenoc->token)) {
+                    $teacher->token = $tokenoc->token;
+                }
                 $teacher->mouserid = $resultarr[0]->id;
                 $teacher->save();
                 return Redirect::to('headTeacher/index')->with('message', '添加成功！');
 
             } else {
                 return Redirect::to('headTeacher/index')->with('message', '网络错误！');
-
             }
-
-
-
         }else{
             return Redirect::to('headTeacher/index')->with('message', '请按要求填写！');
-
         }
     }
 
     public function postUpdate(){
         $validator = Validator::make(Input::all(), Teacher::$rules);
-
         if ($validator->passes() ) {
             $teacher = Teacher::find(Input::get('id'));
             $teacher->moodleid = Input::get('moodleid');
@@ -126,15 +128,10 @@ class HeadTeacherController extends BaseController {
             }
             $teacher->save();
             return Redirect::to('headTeacher/index')->with('message', '添加成功！');
-
-
         }else{
             return Redirect::to('headTeacher/index')->with('message', '请按要求填写！');
-
         }
     }
-
-
     public function getClass($teacherid,$moodleid = '1') {
 
         $classes = Classes::where('moodleid','=',$moodleid)->get();
@@ -145,7 +142,6 @@ class HeadTeacherController extends BaseController {
         $data['moodlename'] = $moodle->moodlename;
         $data['teacherid'] = $teacherid;
         $this->layout->content = View::make('headteacher.class')->with('data',$data);
-
     }
 
     public function postClass() {
@@ -162,23 +158,14 @@ class HeadTeacherController extends BaseController {
                     $classteacher->save();
                 }
             }elseif(Input::get('type') == 'delete'){
-
                 $classteacher = ClassTeacher::where('moodleid','=',$data['moodleid'])
                     ->where('classid','=',$data['classid'])
                     ->where('teacherid','=',$data['teacherid'])
                     ->first();
                 $classteacher->delete();
-
             }
-
-
-
             return Redirect::to('headTeacher/class/'.$data['teacherid'].'/'.$data['moodleid'])->with('message','成功！');
-
         }
         return Redirect::to('headTeacher/class/'.$data['teacherid'].'/'.$data['moodleid'])->with('message','错误！');
-
     }
-
-
 }

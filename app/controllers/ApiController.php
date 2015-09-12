@@ -61,7 +61,8 @@ class ApiController extends Controller {
                         "identity"=> $teacher->identity,
                         "education"=> $teacher->education,
                         "sex"=> $teacher->sex,
-                        "mouserid"=> $teacher->mouserid
+                        "mouserid"=> $teacher->mouserid,
+                        "token" => $teacher->token
                     ];
 
                 } else{
