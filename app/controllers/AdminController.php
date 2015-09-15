@@ -476,7 +476,6 @@ class AdminController extends BaseController {
             foreach( $resultarr as $result) {
                 $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
                 if(!empty($course)) {
-                   // var_dump($result);
                     if(!empty($result->teacher)) {
                         $course->teachercount = count((array)($result->teacher));
                     }
@@ -484,7 +483,7 @@ class AdminController extends BaseController {
                     $course->save();
                 }
             }
-            
+
             return Redirect::to('admin/index')->with('message','选课人数更新成功！');
         }
         return Redirect::to('admin/index')->with('message','选课人数更新失败！');
