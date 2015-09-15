@@ -123,14 +123,18 @@ class AdminController extends BaseController {
         $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$student);
     }
 
-    public function getMoodle() {
+    public function getMoodle($moodleid = '1') {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
         $data['moodles'] = $moodle->getAllMoodle();
+        $moodle = Moodle::find($moodleid);
+        $data['moodle'] = $moodle;
+
         if(!empty($moodles)) {
             $course = new Course();
             $data['courses'] = $course->getCoursesByMoodle($moodles->first()->id);
         }
+
 
         $this->layout->content = View::make('admin.moodle')->with('data',$data);
 
@@ -147,6 +151,79 @@ class AdminController extends BaseController {
         $this->layout->content = View::make('admin.moodle')->with('data',$data);
     }
 
+    public function getMoodlerelate($courseid){
+        $course = Course::find($courseid);
+        if(!empty($course)) {
+            $relaCourse = CourseToCourse::where('mcourseid','=',$course->id)
+                ->where('mmoodleid','=',$course->moodleid)
+                ->get();
+
+            $data['relaCourse'] = $relaCourse;
+            $data['course'] = $course;
+
+            $this->layout->content = View::make('admin.moodlerelate')->with('data',$data);
+        } else{
+            return Redirect::to('admin/moodle');
+
+        }
+    }
+
+    public function getDeleterelate($id) {
+        $relate = CourseToCourse::find($id);
+        if($relate->delete()) {
+            return Redirect::to('admin/moodlerelate/'.$relate->mcourseid);
+
+        }else{
+            return Redirect::to('admin/moodle');
+
+        }
+
+    }
+
+    public function getAddtocourse($courseid,$moodleid = null) {
+        $course = Course::find($courseid);
+        $moodles = Moodle::where('istotal','=','0')->get();
+
+        $data['moodles'] = $moodles;
+        if(!empty($moodles) && empty($moodleid)) {
+            $data['courses'] = Course::where('moodleid','=',$moodles->first()->id)->get();
+            $data['relate'] = CourseToCourse::where('bmoodleid','=',$moodles->first()->id)->lists('bcourseid');
+        } else {
+            $data['courses'] = Course::where('moodleid','=',$moodleid)->get();
+            $data['relate'] = CourseToCourse::where('bmoodleid','=',$moodleid)->lists('bcourseid');
+        }
+        $data['selfrelate'] = CourseToCourse::where('mcourseid','=',$courseid)->lists('bcourseid');
+        //$courses = Course::where('moodleid','=',Input::get('moodleid'))->get();
+        $data['course'] = $course;
+        $this->layout->content = View::make('admin.addtocourse')->with('data',$data);
+
+    }
+
+    public function postAddtocourse(){
+        $course = Input::get('courseid');
+        $moodle = Input::get('moodleid');
+        $coursename = Input::get('coursename');
+        return Redirect::to('admin/addtocourse/'.$course.'/'.$moodle);
+    }
+
+
+    public function postRelatecourse() {
+        $validator = Validator::make(Input::all(), array());
+        $courseid = Input::get('mcourseid');
+        $moodleid = Input::get('bmoodleid');
+        if ($validator->passes()) {
+            $relatecourse = new CourseToCourse();
+            $relatecourse->mmoodleid = Input::get('mmoodleid');
+            $relatecourse->mcourseid = Input::get('mcourseid');
+            $relatecourse->bmoodleid = Input::get('bmoodleid');
+            $relatecourse->bcourseid = Input::get('bcourseid');
+            $relatecourse->save();
+            return Redirect::to('admin/moodlerelate/'.$courseid);
+
+        }
+        return Redirect::to('admin/addtocourse/'.$courseid.'/'.$moodleid);
+
+    }
     public function postCourse() {
 
         $rules = array(
@@ -282,6 +359,7 @@ class AdminController extends BaseController {
         $resultarr = (array)json_decode($data);
         $oldcourseids = Course::where('moodleid','=',$moodleid)->lists('courseid');
         if(!empty($resultarr)) {
+
             foreach( $resultarr as $result) {
                 $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
                 if(!empty($oldcourseids)) {
@@ -398,11 +476,15 @@ class AdminController extends BaseController {
             foreach( $resultarr as $result) {
                 $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
                 if(!empty($course)) {
+                   // var_dump($result);
+                    if(!empty($result->teacher)) {
+                        $course->teachercount = count((array)($result->teacher));
+                    }
                     $course->usercount = $result->usercount;
                     $course->save();
                 }
             }
-
+            die();
             return Redirect::to('admin/index')->with('message','选课人数更新成功！');
         }
         return Redirect::to('admin/index')->with('message','选课人数更新失败！');

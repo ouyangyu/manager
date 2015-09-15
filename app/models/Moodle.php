@@ -21,4 +21,18 @@ class Moodle extends Eloquent {
     public static function getMoodlePage() {
         return Moodle::paginate(4);
     }
+
+    public static function isTotal($moodleid){
+        $moodle = Moodle::find($moodleid);
+        if($moodle->istotal) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static function getMoodleName($moodleid) {
+        $moodle = Moodle::find($moodleid);
+        return $moodle->moodlename;
+    }
 }

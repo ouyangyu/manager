@@ -17,7 +17,7 @@
             <label for="exampleInputName2">Moodle平台</label>
             <select name="moodleid" class="form-control">
                 @foreach($data['moodles'] as $moodle)
-                <option value="{{ $moodle->id }}">{{ $moodle->moodlename }}</option>
+                <option value="{{ $moodle->id }}" {{ $data['moodle']->id == $moodle->id ? 'selected="true"' : '' }}>{{ $moodle->moodlename }}</option>
                 @endforeach
             </select>
           </div>
@@ -53,6 +53,9 @@
                           设置封面
                         </button>
                         <a class="btn btn-primary" href="{{ URL::to('admin/resources/'.$course->id) }}">设置电子资源</a>
+                        @if(Moodle::isTotal($course->moodleid))
+                        <a class="btn btn-primary" href="{{ URL::to('admin/moodlerelate/'.$course->id) }}">关联课程</a>
+                        @endif
                 </td>
                 <div class="modal fade" id="myModal_{{$course->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
