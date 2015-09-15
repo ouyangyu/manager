@@ -484,7 +484,7 @@ class AdminController extends BaseController {
                     $course->save();
                 }
             }
-            die();
+            
             return Redirect::to('admin/index')->with('message','选课人数更新成功！');
         }
         return Redirect::to('admin/index')->with('message','选课人数更新失败！');
