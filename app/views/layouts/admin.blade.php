@@ -172,7 +172,7 @@
            <ul class="nav nav-bottom">
 
                <li >
-                   <a data-toggle="tooltip" data-placement="right" title="退出" href="/settings/organization" aria-hidden="true" class="ng-hide">
+                   <a data-toggle="tooltip" data-placement="right" title="退出" href="{{ URL::to('users/logout') }}" aria-hidden="true" class="ng-hide">
                        <img src="{{ URL::asset('images/tuichu.png') }}" alt="tuichu"></a>
                </li>
            </ul>
@@ -190,10 +190,7 @@
        <script>
            $(function () {
                $('[data-toggle="tooltip"]').tooltip();
-               /*$('[data-toggle="tooltip"]').click(function() {
-                    var title = $(this).attr("title");
-                        $("#left_title").text(title);
-               });*/
+               
 
            })
 
