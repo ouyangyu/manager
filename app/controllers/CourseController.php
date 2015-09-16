@@ -3,7 +3,7 @@
 class CourseController extends ApiController {
 
     public function getMoodle() {
-        $moodles = Moodle::all(array('id','moodlename','moodleurl'));
+        $moodles = Moodle::all(array('id','moodlename','moodleurl','istotal'));
         echo json_encode($moodles);
     }
 
