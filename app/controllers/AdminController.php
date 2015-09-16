@@ -472,18 +472,43 @@ class AdminController extends BaseController {
         $baseurl = $moodle->moodleurl."/webservice/rest/courses.php";
         $data = $this->curl_post($baseurl , null);
         $resultarr = (array)json_decode($data);
+
         if(!empty($resultarr)) {
             foreach( $resultarr as $result) {
+
                 $course = Course::where(array('courseid'=> $result->id , 'moodleid' => $moodle->id))->first();
                 if(!empty($course)) {
                     if(!empty($result->teacher)) {
                         $course->teachercount = count((array)($result->teacher));
+                        $oldcteacher = CourseTeacher::where(array('courseid'=> $course->id , 'moodleid' => $moodle->id))->lists('teacherid');
+                        foreach($result->teacher as $teach) {
+                            if(!empty($oldcteacher)) {
+                                foreach( $oldcteacher as $key => $value ) {
+                                    if($teach->id == $value) {
+                                        unset($oldcteacher[$key]);
+                                    }
+                                }
+                            }
+                            $courseteacher = CourseTeacher::where(array('courseid'=> $course->id , 'moodleid' => $moodle->id,'teacherid'=> $teach->id))->first();
+                            if(empty($courseteacher)) {
+                                $courseteacher = new CourseTeacher();
+                                $courseteacher->moodleid = $moodle->id;
+                                $courseteacher->courseid = $course->id;
+                                $courseteacher->teacherid = $teach->id;
+                            }
+                            $courseteacher->teachername = $teach->lastname.$teach->firstname;
+                            $courseteacher->save();
+                        }
+                        if(!empty($oldcteacher)) {
+                            foreach($oldcteacher as $teacherid) {
+                                CourseTeacher::where(array('courseid'=> $course->id , 'moodleid' => $moodle->id,'teacherid'=> $teacherid))->delete();
+                            }
+                        }
                     }
                     $course->usercount = $result->usercount;
                     $course->save();
                 }
             }
-
             return Redirect::to('admin/index')->with('message','选课人数更新成功！');
         }
         return Redirect::to('admin/index')->with('message','选课人数更新失败！');

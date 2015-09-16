@@ -11,6 +11,7 @@ return array(
     'AddMouseridToTeachers' => $baseDir . '/app/database/migrations/2015_09_10_083136_add_mouserid_to_teachers.php',
     'AddResourcesidToResourcesTable' => $baseDir . '/app/database/migrations/2015_08_03_073307_add_resourcesid_to_resources_table.php',
     'AddTeachercountToCourses' => $baseDir . '/app/database/migrations/2015_09_15_020624_add_teachercount_to_courses.php',
+    'AddTeachernameCourseteacher' => $baseDir . '/app/database/migrations/2015_09_15_055219_add_teachername_courseteacher.php',
     'AddTokenTeachers' => $baseDir . '/app/database/migrations/2015_09_12_055337_add_token_teachers.php',
     'AddUsercountToCourses' => $baseDir . '/app/database/migrations/2015_09_10_030011_add_usercount_to_courses.php',
     'AdminController' => $baseDir . '/app/controllers/AdminController.php',

@@ -23,19 +23,30 @@ class MentorController extends BaseController {
         $this->beforeFilter('auth', array('except' => ''));
     }
 
-    public function getIndex()
+    public function getIndex($moodleid = null)
     {
-        $moodle = new Moodle();
-        $moodles = $moodle->getAllMoodle();
-        $data['moodles'] = $moodle->getAllMoodle();
-        if(!empty($moodles)) {
-            $teacher = new Teacher();
-            $data['classes'] = $teacher->getHeadTeacher();
-        }
 
-        $this->layout->content = View::make('mentor.index')->with('data',$data);
+        $moodles = Moodle::all();
+        if(!empty($moodles) ) {
+            if(empty($moodleid)) {
+                $moodleid = $moodles->first()->id;
+            }
+            $teachers = CourseTeacher::where('moodleid','=',$moodleid)->groupBy('teacherid')->paginate(5);
+            foreach($teachers as $teacher){
+                $courseid = CourseTeacher::where(array('moodleid'=>$moodleid,'teacherid'=>$teacher->teacherid))->lists('courseid');
+                $teacher->courseids = $courseid;
+            }
+
+            $data['teachers'] = $teachers;
+        }
+        $data['moodles'] = Moodle::all();
+        $this->layout->content = View::make('mentor.index')->with('data',$data)->with('moodleid',$moodleid);
         //return View::make('hello');
     }
+
+
+
+
 
    
 
