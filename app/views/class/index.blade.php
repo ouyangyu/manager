@@ -15,9 +15,9 @@
               {{ Form::open(array('url'=> 'class/index', 'class'=> 'form-inline ')) }}
           <div class="form-group">
             <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
+            <select id="selectid" name="moodleid" class="form-control">
                 @foreach($data['moodles'] as $moodle)
-                <option value="{{ $moodle->id }}" selected="@if(isset($moodleid)){{ $moodleid == $moodle->id ? 'true':'false' }}@endif">{{ $moodle->moodlename }}</option>
+                <option value="{{ $moodle->id }}" @if(isset($moodleid)){{ $moodleid == $moodle->id ? 'selected="true"':'' }}@endif>{{ $moodle->moodlename }}</option>
                 @endforeach
             </select>
           </div>
@@ -164,3 +164,9 @@
     </div>
   </div>
 </div>
+<script>
+    $("#selectid").change(function(){
+        var checkValue=$("#selectid").val();
+        $(window.location).attr('href', '{{ URL::to('class/index') }}'+"/"+checkValue);
+    } );
+</script>

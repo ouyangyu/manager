@@ -23,18 +23,21 @@ class ClassController extends BaseController {
         $this->beforeFilter('auth', array('except' => ''));
     }
 
-    public function getIndex()
+    public function getIndex($moodleid = null)
     {
 
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
-        $data['moodles'] = $moodle->getAllMoodle();
+        if(empty($moodleid)) {
+            $moodleid = $moodles->first()->id;
+        }
         if(!empty($moodles)) {
             $class = new Classes();
-            $data['classes'] = $class->getClassByMoodle();
+            $data['classes'] = $class->getClassByMoodle($moodleid);
         }
+        $data['moodles'] = $moodles;
 
-        $this->layout->content = View::make('class.index')->with('data',$data);
+        $this->layout->content = View::make('class.index')->with('data',$data)->with('moodleid',$moodleid);
     }
 
     public function postIndex(){

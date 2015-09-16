@@ -12,10 +12,10 @@
         @endif
     </div>
     <div class="row" style="text-align: center;margin-bottom: 20px">
-              {{ Form::open(array('url'=> 'class/index', 'class'=> 'form-inline ')) }}
+              {{ Form::open(array('url'=> 'mentor/index', 'class'=> 'form-inline ')) }}
           <div class="form-group">
             <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
+            <select id="selectid" name="moodleid" class="form-control">
                 @foreach($data['moodles'] as $moodle)
                 <option value="{{ $moodle->id }}" @if(isset($moodleid)){{ $moodleid == $moodle->id ? 'selected="true"':'' }}@endif>{{ $moodle->moodlename }}</option>
                 @endforeach
@@ -45,7 +45,6 @@
         <tr>
         <td>{{ Moodle::find($teacher->moodleid,array('moodlename'))->moodlename }}</td>
         <td>{{ $teacher->teachername }}</td>
-
                 <td>
                  <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal_{{$teacher->id}}">
                  查看关联课程列表
@@ -72,11 +71,17 @@
                       </div>
                     </div>
                   </div>
+                  </div>
                 </td>
-
         </tr>
         @endforeach
       </tbody>
     </table>
 {{ $data['teachers']->links() }}
 </div>
+<script>
+    $("#selectid").change(function(){
+        var checkValue=$("#selectid").val();
+        $(window.location).attr('href', '{{ URL::to('mentor/index') }}'+"/"+checkValue);
+    } );
+</script>

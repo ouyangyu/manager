@@ -112,16 +112,19 @@ class AdminController extends BaseController {
             return Redirect::to('admin/index')->with('message', '添加失败！');
         }
     }
-    public function getUsers() {
+    public function getUsers($moodleid = null) {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
-        if(!empty($moodles)) {
-            $student = Student::getStudentAll($moodles->first()->id);
+        if(empty($moodleid)) {
+           $moodleid  =  $moodles->first()->id;
         }
-
-        //$data['userdata'] = $users;
-        $this->layout->content = View::make('admin.users')->with('moodles',$moodles)->with('users',$student);
+        if(!empty($moodles)) {
+            $student = Student::getStudentAll($moodleid);
+        }
+        $this->layout->content = View::make('admin.users')->with('moodleid',$moodleid)->with('moodles',$moodles)->with('users',$student);
     }
+
+
 
     public function getMoodle($moodleid = '1') {
         $moodle = new Moodle();

@@ -45,6 +45,9 @@ class MentorController extends BaseController {
     }
 
 
+    public function postIndex() {
+        return Redirect::to('mentor/index/'.Input::get('moodleid'));
+    }
 
 
 

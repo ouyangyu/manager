@@ -23,21 +23,23 @@ class HeadTeacherController extends BaseController {
         $this->beforeFilter('auth', array('except' => ''));
     }
 
-    public function getIndex()
+    public function getIndex($moodleid = null)
     {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
         $data['moodles'] = $moodles;
+        if(empty($moodleid)) {
+            $moodleid = $moodles->first()->id;
+        }
         if(!empty($moodles)) {
             $teacher = new Teacher();
-            $data['teachers'] = $teacher->getHeadTeacher($moodles->first()->id,'1');
+            $data['teachers'] = $teacher->getHeadTeacher($moodleid,'1');
         }
-        $this->layout->content = View::make('headteacher.index')->with('data',$data);
-        //return View::make('hello');
+        $this->layout->content = View::make('headteacher.index')->with('data',$data)->with('moodleid',$moodleid);
     }
 
     public function postIndex() {
-        return Redirect::to('headTeacher/index');
+        return Redirect::to('headTeacher/index/'.Input::get('moodleid'));
     }
     public function postAdd(){
         $validator = Validator::make(Input::all(), Teacher::$rules);

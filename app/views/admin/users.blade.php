@@ -12,16 +12,22 @@
         @endif
     </div>
     <div class="row" style="text-align: center;margin-bottom: 20px">
-              {{ Form::open(array('url'=> 'admin/moodle', 'class'=> 'form-inline ')) }}
-          <div class="form-group">
-            <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
-                @foreach($moodles as $moodle)
-                <option value="{{ $moodle->id }}">{{ $moodle->moodlename }}</option>
-                @endforeach
-            </select>
+             {{-- {{ Form::open(array('url'=> 'admin/users', 'class'=> 'form-inline ')) }}--}}
+          <div class="row">
+            <div class="col-md-2 col-md-offset-3" style="margin-top: 8px;">
+                <label for="exampleInputName2">Moodle平台</label>
+            </div>
+                <div class="col-md-4">
+                     <select id="selectid" name="moodleid" class="form-control">
+                      @foreach($moodles as $moodle)
+                      <option value="{{ $moodle->id }}" {{ $moodle->id == $moodleid ? 'selected="true"' : '' }}>
+                      {{ $moodle->moodlename }}</option>
+                      @endforeach
+                      </select>
+                </div>
+
           </div>
-          <div class="form-group">
+          {{--<div class="form-group">
             <label for="exampleInputEmail2">登录名</label>
             <input type="text" name="username" class="form-control"  placeholder="登录名">
           </div>
@@ -34,7 +40,7 @@
                        <input type="text" name="phone" class="form-control"  placeholder="手机号">
           </div>
           <button type="submit" class="btn btn-primary">查询</button>
-            {{ Form::close() }}
+            {{ Form::close() }}--}}
     </div>
 
 
@@ -63,3 +69,9 @@
 <!-- Button trigger modal -->
 {{ $users->links() }}
 </div>
+<script>
+    $("#selectid").change(function(){
+        var checkValue=$("#selectid").val();
+        $(window.location).attr('href', '{{ URL::to('admin/users') }}'+"/"+checkValue);
+    } );
+</script>
