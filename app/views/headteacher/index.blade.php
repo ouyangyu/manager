@@ -211,7 +211,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="addModalClass">添加班主任</h4>
       </div>
-    <form method="POST" accept-charset="UTF-8" action="add" enctype="multipart/form-data">
+    <form method="POST" accept-charset="UTF-8" action="{{ URL::to('headTeacher/add') }}" enctype="multipart/form-data">
            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
            <input type="hidden" name="type" value="1" />
       <div class="modal-body" style="height: 550px">

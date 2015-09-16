@@ -115,13 +115,17 @@ class AdminController extends BaseController {
     public function getUsers($moodleid = null) {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
-        if(empty($moodleid)) {
-           $moodleid  =  $moodles->first()->id;
-        }
-        if(!empty($moodles)) {
+
+        if($moodles->count()) {
+            if(empty($moodleid)) {
+                $moodleid  =  $moodles->first()->id;
+            }
             $student = Student::getStudentAll($moodleid);
+
         }
-        $this->layout->content = View::make('admin.users')->with('moodleid',$moodleid)->with('moodles',$moodles)->with('users',$student);
+        $this->layout->content = View::make('admin.users')->with('moodles',$moodles)
+            ->with('moodleid',$moodleid)->with('users',null);
+
     }
 
 

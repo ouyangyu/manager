@@ -28,10 +28,11 @@ class HeadTeacherController extends BaseController {
         $moodle = new Moodle();
         $moodles = $moodle->getAllMoodle();
         $data['moodles'] = $moodles;
-        if(empty($moodleid)) {
-            $moodleid = $moodles->first()->id;
-        }
+
         if(!empty($moodles)) {
+            if(empty($moodleid)) {
+                $moodleid = $moodles->first()->id;
+            }
             $teacher = new Teacher();
             $data['teachers'] = $teacher->getHeadTeacher($moodleid,'1');
         }
@@ -91,13 +92,13 @@ class HeadTeacherController extends BaseController {
                 }
                 $teacher->mouserid = $resultarr[0]->id;
                 $teacher->save();
-                return Redirect::to('headTeacher/index')->with('message', '添加成功！');
+                return Redirect::to('headTeacher/index/'.Input::get('moodleid'))->with('message', '添加成功！');
 
             } else {
-                return Redirect::to('headTeacher/index')->with('message', '网络错误！');
+                return Redirect::to('headTeacher/index/'.Input::get('moodleid'))->with('message', '网络错误！');
             }
         }else{
-            return Redirect::to('headTeacher/index')->with('message', '请按要求填写！');
+            return Redirect::to('headTeacher/index/'.Input::get('moodleid'))->with('message', '请按要求填写！');
         }
     }
 

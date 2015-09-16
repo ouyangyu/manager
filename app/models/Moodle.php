@@ -35,4 +35,11 @@ class Moodle extends Eloquent {
         $moodle = Moodle::find($moodleid);
         return $moodle->moodlename;
     }
+
+    public static function isNull() {
+        if(Moodle::all()->count()) {
+            return true;
+        }
+        return false;
+    }
 }

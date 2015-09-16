@@ -51,7 +51,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">新增Moodle平台</h4>
       </div>
-      <form method="POST" accept-charset="UTF-8" action="resources" enctype="multipart/form-data">
+      <form method="POST" accept-charset="UTF-8" action="{{ URL::to('admin/resources') }}" enctype="multipart/form-data">
        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
        <input type="hidden" name="id" value="{{ $data['course']->id }}"/>
       <div class="modal-body" style="height: 400px">

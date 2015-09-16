@@ -139,6 +139,10 @@
                        <img src="{{ URL::asset('images/shop.svg') }}"></a><!-- end ngIf: enable.buildflow -->
                    <!-- ngIf: !enable.buildflow -->
                </li>
+               <li class="@if(Route::currentRouteAction() == 'AdminController@getApp') {{ 'active' }} @endif">
+                                  <a href="{{ URL::to('admin/app') }}" data-toggle="tooltip" data-placement="right" title="APP版本"><img src="{{ URL::asset('images/server.svg') }}" alt="APP版本"></a>
+               </li>
+               @if(Moodle::isNull())
                <li class="@if(Route::currentRouteAction() == 'AdminController@getUsers') {{ 'active' }} @endif">
                    <!-- ngIf: enable.buildflow -->
                    <a  data-toggle="tooltip" data-placement="right" title="平台用户" href="{{ URL::to('admin/users') }}">
@@ -152,9 +156,7 @@
                    <!-- ngIf: !enable.buildflow -->
                </li>
 
-               <li class="@if(Route::currentRouteAction() == 'AdminController@getApp') {{ 'active' }} @endif">
-                   <a href="{{ URL::to('admin/app') }}" data-toggle="tooltip" data-placement="right" title="APP版本"><img src="{{ URL::asset('images/server.svg') }}" alt="APP版本"></a>
-               </li>
+
                <li class="@if(strstr(Route::currentRouteAction(),'HeadTeacherController')) {{ 'active' }} @endif">
                    <a href="{{ URL::to('headTeacher/index')}} " data-toggle="tooltip" data-placement="right" title="班主任">
                    <img src="{{ URL::asset('images/factory_new.svg') }}" alt="班主任"></a>
@@ -167,6 +169,7 @@
                      <a href="{{ URL::to('mentor/index') }}" data-toggle="tooltip" data-placement="right" title="辅导教师">
                      <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师"></a>
                </li>
+               @endif
            </ul>
 
            <ul class="nav nav-bottom">

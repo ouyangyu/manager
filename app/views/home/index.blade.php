@@ -40,6 +40,19 @@
                     <div class="icon-name">平台管理</div>
                 </div>
             </a>
+
+            <a class="icon-view col-md-2" href="{{ URL::to('admin/app') }}" tip-title="APP版本：提醒用户下载新的APP版本。">
+                            <div class="icon-wrapper">
+                                <div class="icon-img">
+                                    <img src="{{ URL::asset("images/server.svg") }}" class="glyphicon glyphicon-user img-rounded">
+
+
+                                </div>
+                                <div class="icon-name">APP版本</div>
+
+                            </div>
+             </a>
+             @if(Moodle::isNull())
             <a class="icon-view col-md-2" href="{{ URL::to('admin/users') }}" tip-title="平台用户：用户手机号码验证，并与云书院绑定。">
                 <div class="icon-wrapper">
                     <div class="icon-img">
@@ -61,17 +74,7 @@
 
                 </div>
             </a>
-            <a class="icon-view col-md-2" href="{{ URL::to('admin/app') }}" tip-title="APP版本：提醒用户下载新的APP版本。">
-                <div class="icon-wrapper">
-                    <div class="icon-img">
-                        <img src="{{ URL::asset("images/server.svg") }}" class="glyphicon glyphicon-user img-rounded">
 
-
-                    </div>
-                    <div class="icon-name">APP版本</div>
-
-                </div>
-            </a>
             <a class="icon-view col-md-2" href="{{ URL::to('headTeacher/index') }}" tip-title="班主任：管理平台班主任用户所管辖的班级！">
                             <div class="icon-wrapper">
                                 <div class="icon-img">
@@ -105,6 +108,7 @@
 
                                         </div>
             </a>
+            @endif
         </div>
     </div>
 

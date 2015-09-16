@@ -52,7 +52,7 @@
 		<h1>前台</h1>
 	</div>
     <div class="admin">
-        <a href="{{ URL::to('users/login') }}" title="Laravel PHP Framework"><img src="{{URL::to('images/moodle.jpg')}}" alt="国开大学后台管理"></a>
+        <a href="{{ URL::to('users/login') }}" title=""><img src="{{URL::to('images/moodle.jpg')}}" alt="国开大学后台管理"></a>
         <h1>后台</h1>
     </div>
 </body>
