@@ -34,5 +34,7 @@
       </tbody>
     </table>
 
+    @if(Moodle::hasreMoodle())
     <a class="btn-primary btn" href="{{ URL::to('admin/addtocourse/'.$data['course']->id) }}">添加分部课程关联</a>
+    @endif
 </div>

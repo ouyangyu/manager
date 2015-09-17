@@ -14,6 +14,10 @@
 {{ HTML::script('js/jquery-1.11.1.min.js',array('type'=>'text/javascript')) }}
 {{ HTML::script('js/bootstrap.min.js',array('type'=>'text/javascript')) }}
  <style>
+ body{
+
+                    background-color: #fffdea;
+ }
         .ui.navbar {
             height: 100%;
             width:80px;
@@ -25,6 +29,8 @@
             border: 0;
             background-color: #3e474e;
             min-height: 540px;
+
+
         }
 
         .ui.navbar .nav-bottom {
@@ -124,14 +130,14 @@
         }
         .nav-pills>li>a{
             color: #ffffff;
-            padding: 10px 0px 10px 0px;
+            padding: 10px 0px 0px 0px;
             text-align: center;
         }
     </style>
     </head>
 
     <body>
-       <div class="ui navbar ng-scope" ng-controller="NavbarCtrl">
+       <div class="ui navbar ng-scope" ng-controller="NavbarCtrl" style="background-image: url({{ URL::asset('images/body.jpg') }})">
            <ul class="nav nav-pills nav-stacked">
                <li class="logo">
 
