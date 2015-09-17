@@ -195,10 +195,10 @@ class AdminController extends BaseController {
         $moodles = Moodle::where('istotal','=','0')->get();
 
         $data['moodles'] = $moodles;
-        if(!empty($moodles) && empty($moodleid)) {
-            $data['courses'] = Course::where('moodleid','=',$moodles->first()->id)->get();
-            $data['relate'] = CourseToCourse::where('bmoodleid','=',$moodles->first()->id)->lists('bcourseid');
-        } else {
+        if(!empty($moodles)) {
+            if(empty($moodleid)) {
+                $moodleid = $moodles->first()->id;
+            }
             $data['courses'] = Course::where('moodleid','=',$moodleid)->get();
             $data['relate'] = CourseToCourse::where('bmoodleid','=',$moodleid)->lists('bcourseid');
         }
