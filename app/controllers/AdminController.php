@@ -124,7 +124,7 @@ class AdminController extends BaseController {
 
         }
         $this->layout->content = View::make('admin.users')->with('moodles',$moodles)
-            ->with('moodleid',$moodleid)->with('users',null);
+            ->with('moodleid',$moodleid)->with('users',$student);
 
     }
 

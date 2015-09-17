@@ -26,8 +26,9 @@ class ClassController extends BaseController {
     public function getIndex($moodleid = null)
     {
 
-        $moodle = new Moodle();
-        $moodles = $moodle->getAllMoodle();
+
+        $moodles = Moodle::where('istotal','=','0')->get();
+
         if(empty($moodleid)) {
             $moodleid = $moodles->first()->id;
         }
@@ -41,9 +42,9 @@ class ClassController extends BaseController {
     }
 
     public function postIndex(){
-        $moodle = new Moodle();
+        $moodles = Moodle::where('istotal','=','0')->get();
 
-        $data['moodles'] = $moodle->getAllMoodle();
+        $data['moodles'] = $moodles;
         $moodleid = Input::get('moodleid');
         $moodle = Moodle::find($moodleid);
         if(!empty($moodle)) {

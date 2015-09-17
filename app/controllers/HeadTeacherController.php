@@ -25,8 +25,7 @@ class HeadTeacherController extends BaseController {
 
     public function getIndex($moodleid = null)
     {
-        $moodle = new Moodle();
-        $moodles = $moodle->getAllMoodle();
+        $moodles = Moodle::where('istotal','=','0')->get();
         $data['moodles'] = $moodles;
 
         if(!empty($moodles)) {

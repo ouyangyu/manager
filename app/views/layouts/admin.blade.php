@@ -155,8 +155,12 @@
                        <img src="{{ URL::asset('images/applist3.svg') }}" alt="Moodle课程" style="  height: 32px;width: 32px"></a><!-- end ngIf: enable.buildflow -->
                    <!-- ngIf: !enable.buildflow -->
                </li>
+                <li class="@if(strstr(Route::currentRouteAction(),'MentorController')) {{ 'active' }} @endif">
+                     <a href="{{ URL::to('mentor/index') }}" data-toggle="tooltip" data-placement="right" title="辅导教师">
+                     <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师"></a>
+               </li>
 
-
+                @if(Moodle::hasreMoodle())
                <li class="@if(strstr(Route::currentRouteAction(),'HeadTeacherController')) {{ 'active' }} @endif">
                    <a href="{{ URL::to('headTeacher/index')}} " data-toggle="tooltip" data-placement="right" title="班主任">
                    <img src="{{ URL::asset('images/factory_new.svg') }}" alt="班主任"></a>
@@ -165,10 +169,7 @@
                     <a href="{{ URL::to('class/index') }}" data-toggle="tooltip" data-placement="right" title="班级管理">
                     <img src="{{ URL::asset('images/rocket.svg') }}" alt="班级管理"></a>
                </li>
-               <li class="@if(strstr(Route::currentRouteAction(),'MentorController')) {{ 'active' }} @endif">
-                     <a href="{{ URL::to('mentor/index') }}" data-toggle="tooltip" data-placement="right" title="辅导教师">
-                     <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师"></a>
-               </li>
+                @endif
                @endif
            </ul>
 

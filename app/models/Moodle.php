@@ -42,4 +42,14 @@ class Moodle extends Eloquent {
         }
         return false;
     }
+
+    /**
+     * 存在分部moodle平台
+     */
+    public static function hasreMoodle() {
+        if(Moodle::where('istotal','=','0')->get()->count()){
+            return true;
+        }
+        return false;
+    }
 }

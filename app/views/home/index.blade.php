@@ -75,6 +75,20 @@
                 </div>
             </a>
 
+            <a class="icon-view col-md-2" href="{{ URL::to('mentor/index') }}" tip-title="辅导教师：管理平台辅导教师！">
+                                        <div class="icon-wrapper">
+                                            <div class="icon-img">
+                                                <img src="{{ URL::asset("images/service.svg") }}" class="glyphicon glyphicon-user img-rounded">
+
+
+                                            </div>
+                                            <div class="icon-name">辅导教师</div>
+
+                                        </div>
+            </a>
+
+            @if(Moodle::hasreMoodle())
+
             <a class="icon-view col-md-2" href="{{ URL::to('headTeacher/index') }}" tip-title="班主任：管理平台班主任用户所管辖的班级！">
                             <div class="icon-wrapper">
                                 <div class="icon-img">
@@ -97,17 +111,7 @@
 
                             </div>
             </a>
-            <a class="icon-view col-md-2" href="{{ URL::to('mentor/index') }}" tip-title="辅导教师：管理平台辅导教师！">
-                                        <div class="icon-wrapper">
-                                            <div class="icon-img">
-                                                <img src="{{ URL::asset("images/service.svg") }}" class="glyphicon glyphicon-user img-rounded">
-
-
-                                            </div>
-                                            <div class="icon-name">辅导教师</div>
-
-                                        </div>
-            </a>
+            @endif
             @endif
         </div>
     </div>
