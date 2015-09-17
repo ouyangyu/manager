@@ -122,6 +122,11 @@
             border: 1px solid #ddd;
             margin-left: -1px;
         }
+        .nav-pills>li>a{
+            color: #ffffff;
+            padding: 10px 0px 10px 0px;
+            text-align: center;
+        }
     </style>
     </head>
 
@@ -129,45 +134,61 @@
        <div class="ui navbar ng-scope" ng-controller="NavbarCtrl">
            <ul class="nav nav-pills nav-stacked">
                <li class="logo">
+
                    <a ng-href="/" data-toggle="tooltip" data-placement="right" data-original-title="主页" href="{{ URL::to('home/index') }}">
-                       <i class="glyphicon glyphicon-blackboard"></i>
+                       <i class="glyphicon glyphicon-blackboard"><p>主页</p></i>
                    </a>
                </li>
                <li class="@if(Route::currentRouteAction() == 'AdminController@getIndex') {{ 'active' }} @endif">
                    <!-- ngIf: enable.buildflow -->
                    <a ng-href="/build-flows"data-toggle="tooltip" data-placement="right" title="平台管理" href="{{ URL::to('admin/index') }}">
-                       <img src="{{ URL::asset('images/shop.svg') }}"></a><!-- end ngIf: enable.buildflow -->
+                       <img src="{{ URL::asset('images/shop.svg') }}">
+                       <p>平台管理</p>
+                       </a><!-- end ngIf: enable.buildflow -->
                    <!-- ngIf: !enable.buildflow -->
                </li>
                <li class="@if(Route::currentRouteAction() == 'AdminController@getApp') {{ 'active' }} @endif">
-                                  <a href="{{ URL::to('admin/app') }}" data-toggle="tooltip" data-placement="right" title="APP版本"><img src="{{ URL::asset('images/server.svg') }}" alt="APP版本"></a>
+                                  <a href="{{ URL::to('admin/app') }}" data-toggle="tooltip" data-placement="right" title="APP版本">
+                                  <img src="{{ URL::asset('images/server.svg') }}" alt="APP版本">
+                                  <p>APP版本</p>
+                                  </a>
                </li>
                @if(Moodle::isNull())
                <li class="@if(Route::currentRouteAction() == 'AdminController@getUsers') {{ 'active' }} @endif">
                    <!-- ngIf: enable.buildflow -->
                    <a  data-toggle="tooltip" data-placement="right" title="平台用户" href="{{ URL::to('admin/users') }}">
-                       <img src="{{ URL::asset('images/user.svg') }}" alt="平台用户"></a><!-- end ngIf: enable.buildflow -->
+                       <img src="{{ URL::asset('images/user.svg') }}" alt="平台用户">
+                       <p>平台用户</p>
+                       </a><!-- end ngIf: enable.buildflow -->
                    <!-- ngIf: !enable.buildflow -->
                </li>
                <li class="@if(Route::currentRouteAction() == 'AdminController@getMoodle') {{ 'active' }} @endif">
                    <!-- ngIf: enable.buildflow -->
                    <a href="{{ URL::to('admin/moodle') }}" data-toggle="tooltip" data-placement="right" title="Moodle课程" class="ng-scope">
-                       <img src="{{ URL::asset('images/applist3.svg') }}" alt="Moodle课程" style="  height: 32px;width: 32px"></a><!-- end ngIf: enable.buildflow -->
+                       <img src="{{ URL::asset('images/applist3.svg') }}" alt="Moodle课程" style="  height: 32px;width: 32px">
+                       <p>Moodle课程</p>
+                       </a><!-- end ngIf: enable.buildflow -->
                    <!-- ngIf: !enable.buildflow -->
                </li>
                 <li class="@if(strstr(Route::currentRouteAction(),'MentorController')) {{ 'active' }} @endif">
                      <a href="{{ URL::to('mentor/index') }}" data-toggle="tooltip" data-placement="right" title="辅导教师">
-                     <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师"></a>
+                     <img src="{{ URL::asset('images/service.svg') }}" alt="辅导教师">
+                     <p>辅助教师</p>
+                     </a>
                </li>
 
                 @if(Moodle::hasreMoodle())
                <li class="@if(strstr(Route::currentRouteAction(),'HeadTeacherController')) {{ 'active' }} @endif">
                    <a href="{{ URL::to('headTeacher/index')}} " data-toggle="tooltip" data-placement="right" title="班主任">
-                   <img src="{{ URL::asset('images/factory_new.svg') }}" alt="班主任"></a>
+                   <img src="{{ URL::asset('images/factory_new.svg') }}" alt="班主任">
+                   <p>班主任</p>
+                   </a>
                </li>
                <li class="@if(strstr(Route::currentRouteAction() ,'ClassController')) {{ 'active' }} @endif">
                     <a href="{{ URL::to('class/index') }}" data-toggle="tooltip" data-placement="right" title="班级管理">
-                    <img src="{{ URL::asset('images/rocket.svg') }}" alt="班级管理"></a>
+                    <img src="{{ URL::asset('images/rocket.svg') }}" alt="班级管理">
+                    <p>班级管理</p>
+                    </a>
                </li>
                 @endif
                @endif
@@ -177,7 +198,9 @@
 
                <li >
                    <a data-toggle="tooltip" data-placement="right" title="退出" href="{{ URL::to('users/logout') }}" aria-hidden="true" class="ng-hide">
-                       <img src="{{ URL::asset('images/tuichu.png') }}" alt="tuichu"></a>
+                       <img src="{{ URL::asset('images/tuichu.png') }}" alt="tuichu">
+                       
+                       </a>
                </li>
            </ul>
        </div>
