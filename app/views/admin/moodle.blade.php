@@ -15,7 +15,7 @@
               {{ Form::open(array('url'=> 'admin/moodle', 'class'=> 'form-inline ')) }}
           <div class="form-group">
             <label for="exampleInputName2">Moodle平台</label>
-            <select name="moodleid" class="form-control">
+            <select id="selectid" name="moodleid" class="form-control">
                 @foreach($data['moodles'] as $moodle)
                 <option value="{{ $moodle->id }}" {{ $data['moodle']->id == $moodle->id ? 'selected="true"' : '' }}>{{ $moodle->moodlename }}</option>
                 @endforeach
@@ -101,3 +101,9 @@
 <!-- Button trigger modal -->
 {{ $data['courses']->links() }}
 </div>
+<script>
+    $("#selectid").change(function(){
+        var checkValue=$("#selectid").val();
+        $(window.location).attr('href', '{{ URL::to('admin/moodle') }}'+"/"+checkValue);
+    } );
+</script>

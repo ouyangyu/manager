@@ -130,18 +130,21 @@ class AdminController extends BaseController {
 
 
 
-    public function getMoodle($moodleid = '1') {
-        $moodle = new Moodle();
-        $moodles = $moodle->getAllMoodle();
-        $data['moodles'] = $moodle->getAllMoodle();
-        $moodle = Moodle::find($moodleid);
-        $data['moodle'] = $moodle;
+    public function getMoodle($moodleid = null) {
+
+        $moodles = Moodle::all();
+
 
         if(!empty($moodles)) {
+            if(empty($moodleid)) {
+                $moodleid = $moodles->first()->id;
+            }
+            $moodle = Moodle::find($moodleid);
+            $data['moodle'] = $moodle;
             $course = new Course();
-            $data['courses'] = $course->getCoursesByMoodle($moodles->first()->id);
+            $data['courses'] = $course->getCoursesByMoodle($moodleid);
         }
-
+        $data['moodles'] = $moodles;
 
         $this->layout->content = View::make('admin.moodle')->with('data',$data);
 

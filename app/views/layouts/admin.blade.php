@@ -199,7 +199,7 @@
                <li >
                    <a data-toggle="tooltip" data-placement="right" title="退出" href="{{ URL::to('users/logout') }}" aria-hidden="true" class="ng-hide">
                        <img src="{{ URL::asset('images/tuichu.png') }}" alt="tuichu">
-                       
+
                        </a>
                </li>
            </ul>
