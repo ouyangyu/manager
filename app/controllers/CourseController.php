@@ -138,16 +138,16 @@ class CourseController extends ApiController {
             ->where('mcourseid','=',$courseid)->get();
         $data['studentCount'] = 0;
         $data['teacherCount'] = 0;
-        $data['student'] = 'null';
+        $data['student'] = '';
         $areaAll = Moodle::all()->lists('area');
         foreach($areaAll as $key => $value) {
-            $data['student'][$value]['name'] = Area::find($value)->title;
+            $data['student'][$value]['name'] = Area::where('area_id','=',$value)->first()->title;
             $data['student'][$value]['count'] = 0;
         }
 
             if(count($courseList)) {
             foreach($courseList as $courseToCourse) {
-                $moodle = Moodle::find($courseToCourse->bmoodleie);
+                $moodle = Moodle::find($courseToCourse->bmoodleid);
                 $course = Course::find($courseToCourse->bcourseid);
                 $data['studentCount'] = $data['studentCount'] + $course->usercount;
                 $data['teacherCount'] = $data['teacherCount'] + $course->teachercount;
@@ -195,15 +195,15 @@ class CourseController extends ApiController {
     }
 
 
-    private function getTeachers($courseid,$moodleid) {
+    private  function getTeachers($courseid,$moodleid) {
         $courseList = CourseToCourse::where('mmoodleid','=',$moodleid)
             ->where('mcourseid','=',$courseid)->get();
         $data = null;
         if(count($courseList)) {
             foreach($courseList as $courseToCourse) {
-                $moodle = Moodle::find($courseToCourse->bmoodleie);
+                $moodle = Moodle::find($courseToCourse->bmoodleid);
                 //$course = Course::find($courseToCourse->bcourseid);
-                $courseTeacher = CourseTeacher::where('moodleid','=',$courseToCourse->bmoodleie)
+                $courseTeacher = CourseTeacher::where('moodleid','=',$courseToCourse->bmoodleid)
                     ->where('courseid','=',$courseToCourse->bcourseid)->get();
                 if(count($courseTeacher)) {
                     foreach($courseTeacher as $teach) {
@@ -213,25 +213,28 @@ class CourseController extends ApiController {
 
                     }
                 }
-                if(empty($data)) {
+
+                if(!empty($data)) {
                     $result[$moodle->moodlename][] = $data;
                 }
                 $data = null;
 
             }
             $courseToCourse = $courseList->first();
-            $moodle = Moodle::find($courseToCourse->mmoodleie);
+            $moodle = Moodle::find($courseToCourse->mmoodleid);
             //$course = Course::find($courseToCourse->bcourseid);
-            $courseTeacher = CourseTeacher::where('moodleid','=',$courseToCourse->mmoodleie)
+            $courseTeacher = CourseTeacher::where('moodleid','=',$courseToCourse->mmoodleid)
                 ->where('courseid','=',$courseToCourse->mcourseid)->get();
+
             if(count($courseTeacher)) {
                 foreach($courseTeacher as $teach) {
                     $teacher['mteacherid'] = $teach->teacherid;
                     $teacher['teachername'] = $teach->teachername;
                     $data[] = $teacher;
                 }
+
             }
-            if(empty($data)) {
+            if(!empty($data)) {
                 $result[$moodle->moodlename][] = $data;
             }
             $data = null;
@@ -239,7 +242,6 @@ class CourseController extends ApiController {
         }else{
             $result = null;
         }
-
         return $result;
     }
 }
