@@ -111,7 +111,6 @@ class CourseController extends ApiController {
                         $arearray['count'] = $course->usercount;
                         $arearray['areaid'] = $moodle->area;
                         $counts['student'][] = $arearray;
-                             
                         //$counts['student'][$moodle->area]['count'] = $counts['student'][$moodle->area]['count'] + $course->usercount;
 
                         $counts['teacher'] = $this->getTeachers($course->id,$course->moodleid);
