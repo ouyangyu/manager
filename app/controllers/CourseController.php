@@ -107,14 +107,22 @@ class CourseController extends ApiController {
                         $counts = $this->getCounts($course->id,$course->moodleid);
                         $counts['studentCount'] = $counts['studentCount'] + $mstudentCount;
                         $counts['teacherCount'] = $counts['teacherCount'] + $mteacherCount;
-                        $counts['student'][$moodle->area]['count'] = $counts['student'][$moodle->area]['count'] + $course->usercount;
+                        $arearray['name'] = Area::where('area_id','=',$moodle->area)->first()->title;
+                        $arearray['count'] = $course->usercount;
+                        $arearray['areaid'] = $moodle->area;
+                        $counts['student'][] = $arearray;
+                             
+                        //$counts['student'][$moodle->area]['count'] = $counts['student'][$moodle->area]['count'] + $course->usercount;
+
                         $counts['teacher'] = $this->getTeachers($course->id,$course->moodleid);
                         $image = empty($course->courseimage) ? "404" : URL::to($course->courseimage);
 
                         $counts['image'] = $image;
-                        $result[$courseid][] = $counts;
+                        $counts['courseid'] = $courseid;
+                        $result[] = $counts;
                     } else {
-                        $result[$courseid][] = '404';
+                        $counts['courseid'] = $courseid;
+                        $result[] = $counts;
                     }
                 }
                 $data['status'] = 'true';
@@ -139,11 +147,16 @@ class CourseController extends ApiController {
         $data['studentCount'] = 0;
         $data['teacherCount'] = 0;
         $data['student'] = '';
-        $areaAll = Moodle::all()->lists('area');
+        /*$areaAll = Moodle::all()->lists('area');
         foreach($areaAll as $key => $value) {
+            $arearray['areaid'] = $value;
+            $arearray['name'] = Area::where('area_id','=',$value)->first()->title;
+            $arearray['count'] = 0;
+
             $data['student'][$value]['name'] = Area::where('area_id','=',$value)->first()->title;
             $data['student'][$value]['count'] = 0;
-        }
+            $data['student'][] = $arearray;
+        }*/
 
             if(count($courseList)) {
             foreach($courseList as $courseToCourse) {
@@ -151,7 +164,11 @@ class CourseController extends ApiController {
                 $course = Course::find($courseToCourse->bcourseid);
                 $data['studentCount'] = $data['studentCount'] + $course->usercount;
                 $data['teacherCount'] = $data['teacherCount'] + $course->teachercount;
-                $data['student'][$moodle->area]['count'] = $data['student'][$moodle->area]['count'] + $course->usercount;
+                $arearray['name'] = Area::where('area_id','=',$moodle->area)->first()->title;
+                $arearray['count'] = $course->usercount;
+                $arearray['areaid'] = $moodle->area;
+                $data['student'][] = $arearray;
+                //$data['student'][$moodle->area]['count'] = $data['student'][$moodle->area]['count'] + $course->usercount;
 
                 }
             }
@@ -209,15 +226,16 @@ class CourseController extends ApiController {
                     foreach($courseTeacher as $teach) {
                         $teacher['mteacherid'] = $teach->teacherid;
                         $teacher['teachername'] = $teach->teachername;
+                        $teacher['moodlename'] = $moodle->moodlename;
                         $data[] = $teacher;
 
                     }
                 }
 
-                if(!empty($data)) {
+                /*if(!empty($data)) {
                     $result[$moodle->moodlename][] = $data;
-                }
-                $data = null;
+                }*/
+
 
             }
             $courseToCourse = $courseList->first();
@@ -230,18 +248,17 @@ class CourseController extends ApiController {
                 foreach($courseTeacher as $teach) {
                     $teacher['mteacherid'] = $teach->teacherid;
                     $teacher['teachername'] = $teach->teachername;
+                    $teacher['moodlename'] = $moodle->moodlename;
                     $data[] = $teacher;
                 }
 
             }
-            if(!empty($data)) {
+           /* if(!empty($data)) {
                 $result[$moodle->moodlename][] = $data;
             }
-            $data = null;
+            $data = null;*/
 
-        }else{
-            $result = null;
         }
-        return $result;
+        return $data;
     }
 }
