@@ -54,7 +54,7 @@
                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal_{{$course->id}}">
                           设置封面
                         </button>
-                        <a class="btn btn-primary" href="{{ URL::to('admin/resources/'.$course->id) }}">设置电子资源</a>
+                       {{-- <a class="btn btn-primary" href="{{ URL::to('admin/resources/'.$course->id) }}">设置电子资源</a>--}}
                         @if(Moodle::isTotal($course->moodleid))
                         <a class="btn btn-primary" href="{{ URL::to('admin/moodlerelate/'.$course->id) }}">关联课程</a>
                         @endif
@@ -90,7 +90,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         {{ Form::submit('保存',array('class'=>"btn btn-primary")) }}
                       </div>
-                                          </form>
+                    </form>
 
                     </div>
                   </div>

@@ -210,6 +210,26 @@ class CourseController extends ApiController {
         echo json_encode($data);
     }
 
+    public function getSource() {
+        $sources = Resource::where('courseid','=',0)->get();
+        if(count($sources)) {
+            foreach($sources as $source) {
+                $data['id'] = $source->id;
+                $data['name'] = $source->resourcename;
+                if(empty($source->resourceimage)) {
+                    $data['image'] = null;
+                } else {
+                    $data['image'] = URL::to($source->resourceimage);
+                }
+
+                $result[] = $data;
+
+            }
+        }else {
+            $result = null;
+        }
+        echo json_encode($result);
+    }
 
     private  function getTeachers($courseid,$moodleid) {
         $courseList = CourseToCourse::where('mmoodleid','=',$moodleid)

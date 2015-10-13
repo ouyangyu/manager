@@ -70,8 +70,8 @@ class HeadTeacherController extends BaseController {
             }
             $user['username']= "laravel".rand(100,99999).Input::get('teacher');
             $user['password']= "Founder@2015!";
-            $user['firstname']= "用户";
-            $user['lastname']= '班主任';
+            $user['firstname']= "班主任";
+            $user['lastname']= Input::get('name');
             $user['email']= "laravel".rand(100,99999).Input::get('email');
             $user['mnethostid'] = 0;
             $user['idnumber']= 'teacher';

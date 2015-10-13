@@ -52,6 +52,17 @@
 
                             </div>
              </a>
+             <a class="icon-view col-md-2" href="{{ URL::to('source/index') }}" tip-title="辅学资源：管理学生的辅导学习资源。">
+                                         <div class="icon-wrapper">
+                                             <div class="icon-img">
+                                                 <img src="{{ URL::asset("images/stackbeta.svg") }}" class="glyphicon glyphicon-user img-rounded">
+
+
+                                             </div>
+                                             <div class="icon-name">辅学资源</div>
+
+                                         </div>
+              </a>
              @if(Moodle::isNull())
             <a class="icon-view col-md-2" href="{{ URL::to('admin/users') }}" tip-title="平台用户：用户手机号码验证，并与云书院绑定。">
                 <div class="icon-wrapper">
