@@ -231,6 +231,17 @@ class CourseController extends ApiController {
         echo json_encode($result);
     }
 
+    public function getClass($userid = null,$moodleid=null) {
+        $student = Student::where('studentid','=',$userid)->where('moodleid','=',$moodleid)->first();
+        if(count($student)) {
+            $class = ClassStudent::where('studentid','=',$student->id)->where('moodleid','=',$moodleid)->first();
+            $classstudent = ClassStudent::getCStudent($class->classid,$moodleid);
+        } else{
+            $classstudent = null;
+        }
+        echo json_encode($classstudent);
+    }
+
     private  function getTeachers($courseid,$moodleid) {
         $courseList = CourseToCourse::where('mmoodleid','=',$moodleid)
             ->where('mcourseid','=',$courseid)->get();
