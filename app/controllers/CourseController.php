@@ -226,7 +226,7 @@ class CourseController extends ApiController {
 
             }
         }else {
-            $result = null;
+            $result = array();
         }
         echo json_encode($result);
     }
@@ -235,9 +235,13 @@ class CourseController extends ApiController {
         $student = Student::where('studentid','=',$userid)->where('moodleid','=',$moodleid)->first();
         if(count($student)) {
             $class = ClassStudent::where('studentid','=',$student->id)->where('moodleid','=',$moodleid)->first();
-            $classstudent = ClassStudent::getCStudent($class->classid,$moodleid);
+            if(!empty($class)) {
+                $classstudent = ClassStudent::getCStudent($class->classid,$moodleid);
+            }else {
+                $classstudent = array();
+            }
         } else{
-            $classstudent = null;
+            $classstudent = array();
         }
         echo json_encode($classstudent);
     }
