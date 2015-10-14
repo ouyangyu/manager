@@ -66,20 +66,20 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">设置课程封面</h4>
                       </div>
-                      <form method="POST" accept-charset="UTF-8" action="course" enctype="multipart/form-data">
+                      <form method="POST" accept-charset="UTF-8" action="{{ URL::to('admin/course') }}" enctype="multipart/form-data">
 
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
                       <div class="modal-body" style="height: 150px">
                       <div class="row">
-                         {{ FORM::label('课程名称',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                         {{ Form::label('课程名称',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                 <div class="col-md-8">
                                  {{ Form::label($course->coursename,null, array('class'=>'control-label ')) }}
                                  <input type="hidden" name="id" value="{{ $course->id }}">
                                 </div>
                       </div>
                        <div class="row">
-                       {{ FORM::label('设置封面',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                       {{ Form::label('设置封面',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                        <div class="col-md-8">
                                        <input type="file" name="courseimage" class="form-control"/>
                                        </div>
