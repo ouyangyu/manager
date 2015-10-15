@@ -29,7 +29,7 @@ class ApiController extends Controller {
 
     public function postLogin() {
 
-        if(Input::get('type') == 'teacher') {
+        if(Input::get('type') == 'headmaster') {
             $teachername = Input::get('teacher');
             $teacherphone = Input::get('phone');
             if(!empty($teachername)) {
