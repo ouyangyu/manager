@@ -31,7 +31,7 @@ class MentorController extends BaseController {
             if(empty($moodleid)) {
                 $moodleid = $moodles->first()->id;
             }
-            $teachers = CourseTeacher::where('moodleid','=',$moodleid)->groupBy('teacherid')->paginate(5);
+            $teachers = CourseTeacher::where('moodleid','=',$moodleid)->groupBy('teacherid')->paginate(15);
             foreach($teachers as $teacher){
                 $courseid = CourseTeacher::where(array('moodleid'=>$moodleid,'teacherid'=>$teacher->teacherid))->lists('courseid');
                 $teacher->courseids = $courseid;

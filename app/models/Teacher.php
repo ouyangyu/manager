@@ -21,7 +21,7 @@ class Teacher extends Eloquent {
     );
 
     public function getHeadTeacher($moodleid = '1',$type = '1') {
-        return $this->where('moodleid','=',$moodleid)->where('type','=',$type)->paginate(4);
+        return $this->where('moodleid','=',$moodleid)->where('type','=',$type)->paginate(15);
     }
 
     public static  function notSameTeacher($teacher,$moodleid = '1') {

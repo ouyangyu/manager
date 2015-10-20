@@ -27,10 +27,7 @@
                 @endforeach
             </select>
           </div>
-          <div class="form-group">
-            <label for="exampleInputEmail2">班主任登录名</label>
-            <input type="text" name="teacher" class="form-control" id="exampleInputEmail2" placeholder="班主任登录名">
-          </div>
+
           <div class="form-group">
                       <label for="exampleInputEmail2">姓名</label>
                       <input type="text" name="name" class="form-control" id="exampleInputEmail2" placeholder="姓名">

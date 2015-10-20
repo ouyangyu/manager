@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label for="exampleInputEmail2">班级名称</label>
-            <input type="text" name="coursename" class="form-control" id="exampleInputEmail2" placeholder="课程名称">
+            <input type="text" name="coursename" class="form-control" id="exampleInputEmail2" placeholder="班级名称">
           </div>
           <button type="submit" class="btn btn-primary">查询</button>
             {{ Form::close() }}

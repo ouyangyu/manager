@@ -18,10 +18,7 @@
             <label for="exampleInputEmail2">登录名</label>
             <input type="text" name="username" class="form-control"  placeholder="登录名">
           </div>
-          <div class="form-group">
-                      <label for="exampleInputEmail2">姓名</label>
-                      <input type="text" name="nickname" class="form-control" placeholder="姓名">
-          </div>
+
           <div class="form-group">
                        <label for="exampleInputEmail2">手机号</label>
                        <input type="text" name="phone" class="form-control"  placeholder="手机号">

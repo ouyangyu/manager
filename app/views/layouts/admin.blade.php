@@ -159,12 +159,12 @@
                                   <p>APP版本</p>
                                   </a>
                </li>
-               <li class="@if(strstr(Route::currentRouteAction(),'SourceController')) {{ 'active' }} @endif">
+              {{-- <li class="@if(strstr(Route::currentRouteAction(),'SourceController')) {{ 'active' }} @endif">
                                                  <a href="{{ URL::to('source/index') }}" data-toggle="tooltip" data-placement="right" title="APP版本">
                                                  <img style="    width: 32px" src="{{ URL::asset('images/stackbeta.svg') }}" alt="APP版本">
                                                  <p>辅学资源</p>
                                                  </a>
-                              </li>
+                              </li>--}}
                @if(Moodle::isNull())
                <li class="@if(Route::currentRouteAction() == 'AdminController@getUsers') {{ 'active' }} @endif">
                    <!-- ngIf: enable.buildflow -->

@@ -269,6 +269,18 @@ class AdminController extends BaseController {
 
     }
 
+    public function getDelapp($id = null) {
+        if(!empty($id)) {
+            if(MoodleApp::find($id)->delete()){
+                return Redirect::to('admin/app')->with('message', '删除成功！');
+
+            }
+            return Redirect::to('admin/app')->with('message', '删除失败！');
+
+        }
+        return Redirect::to('admin/app')->with('message', '错误！');
+    }
+
     public function postApp() {
         $validator = Validator::make(Input::all(), array());
         if ($validator->passes()) {

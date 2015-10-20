@@ -25,7 +25,7 @@ class Student extends Eloquent  {
 
 
     public static function getStudentAll($moodleid) {
-        return Student::where('moodleid','=',$moodleid)->paginate(6);
+        return Student::where('moodleid','=',$moodleid)->paginate(15);
 
     }
     /*
@@ -39,7 +39,7 @@ class Student extends Eloquent  {
         $classs = DB::table('students')
             ->where('students.moodleid','=',$moodleid)
             ->whereNotIn('id',$classstudent)
-            ->paginate(6);
+            ->paginate(15);
         return $classs;
     }
 

@@ -11,17 +11,7 @@
 
         @endif
     </div>
-    <div class="row" style="text-align: center;margin-bottom: 20px">
-              {{ Form::open(array('url'=> 'admin/moodle', 'class'=> 'form-inline ')) }}
 
-          <div class="form-group">
-            <label for="exampleInputEmail2">版本</label>
-            <input type="text" name="appversion" class="form-control"  placeholder="版本">
-          </div>
-
-          <button type="submit" class="btn btn-primary">查询</button>
-            {{ Form::close() }}
-    </div>
 
 
     <table class="table table-hover" >
@@ -30,6 +20,7 @@
         <th>版本号</th>
         <th>保存路径（相对地址）</th>
         <th>更新时间</th>
+        <th>最新版本</th>
         <th>操作</th>
         </tr>
       </thead>
@@ -39,8 +30,10 @@
                 <td>{{ $app->appversion }}</td>
                 <td>{{ $app->appfile }}</td>
                 <td>{{ $app->apptime }}</td>
-                <td><a class="btn btn-primary" href="#">修改</a>
-                <a class="btn btn-danger">删除</a>
+                <td>{{ $app->isonline == 1 ? "最新" : "已替换" }}</td>
+                <td><a class="btn btn-danger" href="{{ URL::to('admin/delapp/'.$app->id) }}">删除</a>
+
+
                 </td>
 
 
@@ -66,13 +59,13 @@
 
                       <div class="modal-body" style="height: 150px">
                       <div class="row">
-                         {{ FORM::label('版本号',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                         {{ Form::label('版本号',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                 <div class="col-md-8">
                                  {{ Form::text('appversion',null, array('class'=>'form-control ')) }}
                                 </div>
                       </div>
                        <div class="row">
-                       {{ FORM::label('APP文件',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                       {{ Form::label('APP文件',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                        <div class="col-md-8">
                                        <input type="file" name="appfile" class="form-control"/>
                                        </div>

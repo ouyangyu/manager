@@ -50,7 +50,7 @@
                 <td>{{ $course->usercount }}</td>
                 <td>{{ $course->subject }}</td>
                 <td>
-                        <a class="btn btn-danger">删除</a>
+
                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal_{{$course->id}}">
                           设置封面
                         </button>
