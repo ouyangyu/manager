@@ -282,10 +282,10 @@ class AdminController extends BaseController {
     }
 
     public function postApp() {
-        $validator = Validator::make(Input::all(), array());
+        $validator = Validator::make(Input::all(), Apps::$rules);
         if ($validator->passes()) {
             $file = Input::file('appfile');
-            if($file->isValid()){
+            if(in_array(Input::get('apptype'),array('teacher','student')) && in_array(Input::get('equipment'),array('phone','pad')) && $file->isValid()){
                 $clientName = $file->getClientOriginalName();
                 //$tmpName = $file->getFileName();
                 //$realPath = $file->getRealPath();
@@ -295,18 +295,24 @@ class AdminController extends BaseController {
                     $newName = 'moodle'.Input::get('appversion').".".$extension;
                     $path = $file->move('uploads/apps',$newName); //这里是缓存文件夹，存放的是用户上传的原图，这里要返回原图地址给
                     $oldapp = new MoodleApp();
-                    $oldapp = $oldapp->getLast();
-                    if(!empty($oldapp)) {
-                        $oldapp->isonline = '0';
-                        $oldapp->save();
-                    }
-                    $app = new MoodleApp();
-                    $app->appversion = Input::get('appversion');
-                    $app->appfile = $path->getPathname();
-                    $app->apptime = date('Y-m-d H:i:s',time());
-                    $app->save();
+                    //$oldapp = $oldapp->getLast();
+                    if(MoodleApp::setAll(Input::get('apptype'),Input::get('equipment'))) {
+                        $app = new MoodleApp();
+                        $app->appversion = Input::get('appversion');
+                        $app->apptype = Input::get('apptype');
+                        $app->equipment = Input::get('equipment');
+                        $app->appfile = $path->getPathname();
+                        $app->apptime = date('Y-m-d H:i:s',time());
+                        $app->save();
+                        return Redirect::to('admin/app')->with('message', '上传成功！');
 
-                    return Redirect::to('admin/app')->with('message', '上传成功！');
+                    }else{
+                        return Redirect::to('admin/app')->with('message', '失败！');
+
+                    }
+
+
+
                 } else {
                     return Redirect::to('admin/app')->with('message','文件格式不对！');
                 }

@@ -44,6 +44,25 @@ class CourseController extends ApiController {
         echo json_encode($result);
     }
 
+    public function getNapp($apptype,$equipment) {
+        if(in_array($apptype,array('teacher','student')) && in_array($equipment,array('phone','pad'))){
+            $app = Apps::getLine($apptype,$equipment);
+            if(!empty($app) ){
+                    $data['version'] = $app->appversion;
+                    $data['file'] = URL::to($app->appfile);
+            }else{
+                $data['version'] = '';
+                $data['file'] = '';
+            }
+
+        }else{
+            $data['version'] = '';
+            $data['file'] = '';
+        }
+        echo json_encode($data);
+
+    }
+
     public  function getApp($version = null){
         $app = Apps::getOnline()->first();
         if(!empty($app) ){
@@ -55,7 +74,7 @@ class CourseController extends ApiController {
                 $data['file'] = "";
             }
         }
-            else {
+        else {
             $data['version'] = "";
             $data['file'] = "";
         }

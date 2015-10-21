@@ -19,7 +19,7 @@
         <tr>
         <th>版本号</th>
         <th>保存路径（相对地址）</th>
-        <th>更新时间</th>
+        <th>客户端</th><th>设备</th>
         <th>最新版本</th>
         <th>操作</th>
         </tr>
@@ -29,7 +29,8 @@
             <tr>
                 <td>{{ $app->appversion }}</td>
                 <td>{{ $app->appfile }}</td>
-                <td>{{ $app->apptime }}</td>
+                <td>{{ $app->apptype == 'student' ? '学生端' : "教师端"}}</td>
+                <td>{{ $app->equipment == 'phone' ? '手机' : "平板"}}</td>
                 <td>{{ $app->isonline == 1 ? "最新" : "已替换" }}</td>
                 <td><a class="btn btn-danger" href="{{ URL::to('admin/delapp/'.$app->id) }}">删除</a>
 
@@ -50,19 +51,32 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">添加APP新版本</h4>
                       </div>
                       <form method="POST" accept-charset="UTF-8" action="app" enctype="multipart/form-data">
 
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                      <div class="modal-body" style="height: 150px">
+                      <div class="modal-body" style="height: 250px">
                       <div class="row">
                          {{ Form::label('版本号',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                 <div class="col-md-8">
                                  {{ Form::text('appversion',null, array('class'=>'form-control ')) }}
                                 </div>
+                      </div>
+                      <div class="row">
+                        {{ Form::label('类型',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                           <div class="col-md-8">
+                           {{ Form::select('apptype',array('teacher'=>'教师端','student'=>'学生端'), null ,array('class'=>'form-control ')) }}
+                          </div>
+                      </div>
+                      <div class="row">
+                         {{ Form::label('设备类型',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                         <div class="col-md-8">
+                          {{ Form::select('equipment',array('phone'=>'手机','pad'=>'平板'), null ,array('class'=>'form-control ')) }}
+                        </div>
                       </div>
                        <div class="row">
                        {{ Form::label('APP文件',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}

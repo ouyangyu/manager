@@ -91,7 +91,7 @@
                                    <input type="hidden" name="id" value="{{ $teacher->id }}" />
                               <div class="modal-body" style="height: 550px">
                               <div class="row">
-                                          {{ FORM::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
+                                          {{ Form::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
                                           <div class="col-md-8">
                                               <select name="moodleid" class="form-control">
                                                    @foreach($data['moodles'] as $moodle)
@@ -102,47 +102,47 @@
 
                               </div>
                               <div class="row">
-                                       {{ FORM::label('头像',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                       {{ Form::label('头像',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                               <div class="col-md-8">
                                                  <input type="file" name="image" class="form-control"/>
                                               </div>
                               </div>
                               <div class="row">
-                                 {{ FORM::label('登录名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                 {{ Form::label('登录名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                         <div class="col-md-8">
                                          {{ Form::text('teacher',$teacher->teacher, array('class'=>'form-control ',  'placeholder'=>'登录名')) }}
 
                                         </div>
                               </div>
                               <div class="row">
-                                       {{ FORM::label('Email',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                       {{ Form::label('Email',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                               <div class="col-md-8">
                                                {{ Form::text('email',$teacher->email, array('class'=>'form-control ',  'placeholder'=>'邮箱')) }}
 
                                               </div>
                                     </div>
                                <div class="row">
-                                              {{ FORM::label('手机',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                              {{ Form::label('手机',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                                      <div class="col-md-8">
                                                       {{ Form::text('phone',$teacher->phone, array('class'=>'form-control ',  'placeholder'=>'手机号')) }}
 
                                                      </div>
                                 </div>
                                <div class="row">
-                               {{ FORM::label('姓名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                               {{ Form::label('姓名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                                <div class="col-md-8">
                                                 {{ Form::text('name',$teacher->name, array('class'=>'form-control ',  'placeholder'=>'姓名')) }}
 
                                                </div>
                                </div>
                                <div class="row">
-                                      {{ FORM::label('专业',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                      {{ Form::label('专业',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                                       <div class="col-md-8">
                                                        {{ Form::text('major',$teacher->major, array('class'=>'form-control ', 'placeholder'=>'专业')) }}
                                                       </div>
                                </div>
                                <div class="row">
-                                 {{ FORM::label('性别',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                 {{ Form::label('性别',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                    <div class="col-md-8">
                                    <select name="sex" class="form-control">
                                         <option value="1" selected="{{ $teacher->sex == 1 ? 'true':'false' }}">男</option>
@@ -153,25 +153,25 @@
                                </div>
 
                                 <div class="row">
-                                   {{ FORM::label('民族',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                   {{ Form::label('民族',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                   <div class="col-md-8">
                                     {{ Form::text('nation',$teacher->nation, array('class'=>'form-control ', 'placeholder'=>'民族')) }}
                                      </div>
                                 </div>
                                  <div class="row">
-                                    {{ FORM::label('身份',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                    {{ Form::label('身份',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                    <div class="col-md-8">
                                      {{ Form::text('identity',$teacher->identity, array('class'=>'form-control ', 'placeholder'=>'身份')) }}
                                       </div>
                                  </div>
                                 <div class="row">
-                                    {{ FORM::label('籍贯',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                    {{ Form::label('籍贯',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                    <div class="col-md-8">
                                      {{ Form::text('nativeplace',$teacher->nativeplace, array('class'=>'form-control ', 'placeholder'=>'籍贯')) }}
                                       </div>
                                  </div>
                                 <div class="row">
-                                     {{ FORM::label('学历',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                                     {{ Form::label('学历',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                                     <div class="col-md-8">
                                       {{ Form::text('education',$teacher->education, array('class'=>'form-control ', 'placeholder'=>'学历')) }}
                                        </div>
@@ -213,7 +213,7 @@
            <input type="hidden" name="type" value="1" />
       <div class="modal-body" style="height: 550px">
       <div class="row">
-                  {{ FORM::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
+                  {{ Form::label('Moodle平台',null ,array('class'=>'col-md-3  control-label')) }}
                   <div class="col-md-8">
                       <select name="moodleid" class="form-control">
                            @foreach($data['moodles'] as $moodle)
@@ -224,47 +224,47 @@
 
       </div>
       <div class="row">
-               {{ FORM::label('头像',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+               {{ Form::label('头像',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                       <div class="col-md-8">
                          <input type="file" name="image" class="form-control"/>
                       </div>
       </div>
       <div class="row">
-         {{ FORM::label('登录名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+         {{ Form::label('登录名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                 <div class="col-md-8">
                  {{ Form::text('teacher',null, array('class'=>'form-control ',  'placeholder'=>'登录名')) }}
 
                 </div>
       </div>
       <div class="row">
-               {{ FORM::label('Email',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+               {{ Form::label('Email',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                       <div class="col-md-8">
                        {{ Form::text('email',null, array('class'=>'form-control ',  'placeholder'=>'邮箱')) }}
 
                       </div>
             </div>
        <div class="row">
-                      {{ FORM::label('手机',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+                      {{ Form::label('手机',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                              <div class="col-md-8">
                               {{ Form::text('phone',null, array('class'=>'form-control ',  'placeholder'=>'手机号')) }}
 
                              </div>
         </div>
        <div class="row">
-       {{ FORM::label('姓名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+       {{ Form::label('姓名',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                        <div class="col-md-8">
                         {{ Form::text('name',null, array('class'=>'form-control ',  'placeholder'=>'姓名')) }}
 
                        </div>
        </div>
        <div class="row">
-              {{ FORM::label('专业',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+              {{ Form::label('专业',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
                               <div class="col-md-8">
                                {{ Form::text('major',null, array('class'=>'form-control ', 'placeholder'=>'专业')) }}
                               </div>
        </div>
        <div class="row">
-         {{ FORM::label('性别',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+         {{ Form::label('性别',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
            <div class="col-md-8">
            <select name="sex" class="form-control">
                 <option value="1">男</option>
@@ -275,25 +275,25 @@
        </div>
 
         <div class="row">
-           {{ FORM::label('民族',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+           {{ Form::label('民族',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
           <div class="col-md-8">
             {{ Form::text('nation',null, array('class'=>'form-control ', 'placeholder'=>'民族')) }}
              </div>
         </div>
          <div class="row">
-            {{ FORM::label('身份',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+            {{ Form::label('身份',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
            <div class="col-md-8">
              {{ Form::text('identity',null, array('class'=>'form-control ', 'placeholder'=>'身份')) }}
               </div>
          </div>
         <div class="row">
-            {{ FORM::label('籍贯',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+            {{ Form::label('籍贯',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
            <div class="col-md-8">
              {{ Form::text('nativeplace',null, array('class'=>'form-control ', 'placeholder'=>'籍贯')) }}
               </div>
          </div>
         <div class="row">
-             {{ FORM::label('学历',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
+             {{ Form::label('学历',null ,array('class'=>'col-md-2 col-md-offset-1 control-label')) }}
             <div class="col-md-8">
               {{ Form::text('education',null, array('class'=>'form-control ', 'placeholder'=>'学历')) }}
                </div>
