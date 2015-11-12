@@ -285,7 +285,7 @@ class AdminController extends BaseController {
         $validator = Validator::make(Input::all(), Apps::$rules);
         if ($validator->passes()) {
             $file = Input::file('appfile');
-            if(in_array(Input::get('apptype'),array('teacher','student')) && in_array(Input::get('equipment'),array('phone','pad')) && $file->isValid()){
+            if($file->isValid() && in_array(Input::get('apptype'),array('teacher','student')) && in_array(Input::get('equipment'),array('phone','pad')) ){
                 $clientName = $file->getClientOriginalName();
                 //$tmpName = $file->getFileName();
                 //$realPath = $file->getRealPath();
